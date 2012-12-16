@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[I say...]]></title>
+  <link href="http://siliconsenthil.herokuapp.com/atom.xml" rel="self"/>
+  <link href="http://siliconsenthil.herokuapp.com/"/>
+  <updated>2012-12-16T11:14:23+05:30</updated>
+  <id>http://siliconsenthil.herokuapp.com/</id>
+  <author>
+    <name><![CDATA[Senthil V S]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Test post]]></title>
+    <link href="http://siliconsenthil.herokuapp.com/blog/2012/12/16/test-post/"/>
+    <updated>2012-12-16T09:53:00+05:30</updated>
+    <id>http://siliconsenthil.herokuapp.com/blog/2012/12/16/test-post</id>
+    <content type="html"><![CDATA[
+]]></content>
+  </entry>
+  
+</feed>
