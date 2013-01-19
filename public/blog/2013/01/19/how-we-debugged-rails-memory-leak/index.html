@@ -72,8 +72,11 @@ few suggestions and but din&#8217;t help much. We &hellip;">
 
 
 <div class="entry-content"><p>We run our app on heroku and kept on getting R14s. Our google and stackoverflow skills did provide
-few suggestions and but din&#8217;t help much. We used few tools (TODO) see the memory usage. They provided who use how much
+few suggestions and but din&#8217;t help much. We used few tools (<a href="https://github.com/brynary/rack-bug">rack_bug</a>, <a href="https://github.com/noahd1/oink">oink</a>) see the memory usage. They provided who use how much <br/>
 but we could make further progress with that. So here&#8217;s what we did to find out.</p>
+
+<!--more-->
+
 
 <ul>
 <li>Figured out what pages create R14
@@ -120,10 +123,10 @@ the problem is with the specific page and not the framework as such.</li>
 
 
 <p><span> Finally, nailed down to <code>model.has_warnings?</code>.</span>
-We use validation_scopes which was the cause in our case. It was creating metaclasses for validation
+We use <a href="https://github.com/gtd/validation_scopes">validation_scopes</a> which was the cause in our case. It was creating metaclasses for validation
 and those classes did not get garbage collected (<a href="/blog/2013/01/19/validation-scopes-leaks-memory/">details</a>).</p>
 
-<p>We fixed it by replacing <em>validation_scopes</em> with <em>activemodel-warnings</em>.</p>
+<p>We fixed it by replacing <em>validation_scopes</em> with <a href="https://github.com/paneq/activemodel-warnings"><em>activemodel-warnings</em></a>.</p>
 </div>
 
 
@@ -164,7 +167,7 @@ and those classes did not get garbage collected (<a href="/blog/2013/01/19/valid
     <p class="meta">
       
       
-        <a class="basic-alignment right" href="/blog/2013/01/19/validation-scopes-leaks-memory/" title="Next Post: validation scopes leaks memory">validation scopes leaks memory &raquo;</a>
+        <a class="basic-alignment right" href="/blog/2013/01/19/validation-scopes-leaks-memory/" title="Next Post: Memory leaks with <i>validation_scopes</i>">Memory leaks with <i>validation_scopes</i> &raquo;</a>
       
     </p>
   </footer>

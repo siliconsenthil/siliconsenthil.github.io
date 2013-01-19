@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>validation scopes leaks memory - siliconsenthil.in</title>
+  <title>Memory leaks with <i>validation_scopes</i> - siliconsenthil.in</title>
   <meta name="author" content="Senthil V S">
 
   
@@ -48,7 +48,7 @@ The gem &hellip;">
   
   <header>
     
-      <h1 class="entry-title">Validation Scopes Leaks Memory</h1>
+      <h1 class="entry-title">Memory Leaks With <i>validation_scopes</i></h1>
     
     
       <p class="meta">
@@ -72,10 +72,13 @@ The gem &hellip;">
 
 
 <div class="entry-content"><p>We had a requirement in our app to ignore few validations by just showing warnings to user and continuing the object to save.
-The gem <em>validation_scopes</em> seemed to be a right choice and we used it.</p>
+The gem <a href="https://github.com/gtd/validation_scopes"><em>validation_scopes</em></a> seemed to be a right choice and we used it.</p>
 
 <p>We faced memory issues and <a href="/blog/2013/01/19/how-we-debugged-rails-memory-leak/">figured out</a>
-<code>model.has_warnings?</code> was causing issue.</p>
+<code>model.has_warnings?</code> of <em>validation_scopes</em> was causing issue.</p>
+
+<!--more-->
+
 
 <p>Let&#8217;s take a rails model class <em>Employee</em></p>
 
@@ -138,7 +141,7 @@ The problem is that these runtime created classes don&#8217;t get garbage collec
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>We&#8217;ve taken the <em>object_id</em> of both the objects. Let&#8217;s set the references to nil and run the GC.</p>
+<p>We&#8217;ve taken the <em>object_id</em> of the model object and runtime created delegator class(which is an instance of class <em>Class</em> of course). Let&#8217;s set the references to nil and run the GC.</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="n">p194</span> <span class="p">:</span><span class="mo">014</span> <span class="o">&gt;</span> <span class="nb">local_variables</span>
 </span><span class='line'> <span class="o">=&gt;</span> <span class="o">[</span><span class="ss">:e_object_id</span><span class="p">,</span> <span class="ss">:warning_object_class_id</span><span class="p">,</span> <span class="ss">:warning_object</span><span class="p">,</span> <span class="ss">:e</span><span class="p">,</span> <span class="ss">:_</span><span class="o">]</span>
@@ -149,7 +152,7 @@ The problem is that these runtime created classes don&#8217;t get garbage collec
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Now let&#8217;s use those object_ids to check whether they are GCed.</p>
+<p>Now let&#8217;s use those object_ids to check whether they get GCed.</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="n">p194</span> <span class="p">:</span><span class="mo">011</span> <span class="o">&gt;</span> <span class="no">ObjectSpace</span><span class="o">.</span><span class="n">_id2ref</span> <span class="n">e_object_id</span>
 </span><span class='line'><span class="ss">RangeError</span><span class="p">:</span> <span class="mh">0x003fff6ec881bc</span> <span class="n">is</span> <span class="n">recycled</span> <span class="n">object</span>
@@ -165,9 +168,10 @@ The problem is that these runtime created classes don&#8217;t get garbage collec
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>So, the runtime created anonymous classes never get GCed and they stack up into memory.</p>
+<p>So, the runtime created anonymous classes never get GCed and stay in memory. This the reason why
+the memory was kept on increasing for every request.</p>
 
-<p>We fixed it by replacing <em>validation_scopes</em> with <em>activemodel-warnings</em>.</p>
+<p>We fixed it by replacing <em>validation_scopes</em> with <a href="https://github.com/paneq/activemodel-warnings"><em>activemodel-warnings</em></a>.</p>
 </div>
 
 

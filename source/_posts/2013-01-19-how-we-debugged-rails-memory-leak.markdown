@@ -7,9 +7,9 @@ categories:
 ---
 
 We run our app on heroku and kept on getting R14s. Our google and stackoverflow skills did provide
-few suggestions and but din't help much. We used few tools (TODO) see the memory usage. They provided who use how much
+few suggestions and but din't help much. We used few tools ([rack_bug](https://github.com/brynary/rack-bug), [oink](https://github.com/noahd1/oink)) see the memory usage. They provided who use how much   
 but we could make further progress with that. So here's what we did to find out.
-
+<!--more-->
 * Figured out what pages create R14
     * Observe pattern of usage
     * Load test app with multiple usage paths. Figure out which falls soon.
@@ -28,7 +28,7 @@ a while. Don't be misguided by the initial increase in memory as memory leak. It
     * Figured out which chunk leaks the memory.
 
 <span> Finally, nailed down to <code>model.has_warnings?</code>.</span>
-We use validation_scopes which was the cause in our case. It was creating metaclasses for validation
+We use [validation_scopes](https://github.com/gtd/validation_scopes) which was the cause in our case. It was creating metaclasses for validation
 and those classes did not get garbage collected ([details](/blog/2013/01/19/validation-scopes-leaks-memory/)). 
 
-We fixed it by replacing _validation_scopes_ with _activemodel-warnings_.
+We fixed it by replacing _validation_scopes_ with [_activemodel-warnings_](https://github.com/paneq/activemodel-warnings).

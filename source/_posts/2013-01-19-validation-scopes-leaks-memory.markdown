@@ -1,17 +1,18 @@
 ---
 layout: post
-title: "validation scopes leaks memory"
+title: "Memory leaks with <i>validation_scopes</i>"
 date: 2013-01-19 17:50
 comments: true
 categories: 
 ---
 
 We had a requirement in our app to ignore few validations by just showing warnings to user and continuing the object to save.
-The gem _validation_scopes_ seemed to be a right choice and we used it.
+The gem [_validation_scopes_](https://github.com/gtd/validation_scopes) seemed to be a right choice and we used it.
 
 We faced memory issues and [figured out](/blog/2013/01/19/how-we-debugged-rails-memory-leak/)
-<code>model.has_warnings?</code> was causing issue.
+<code>model.has_warnings?</code> of _validation_scopes_ was causing issue.
 
+<!--more-->
 Let's take a rails model class _Employee_
 ``` ruby
 class Employee < ActiveRecord::Base
@@ -69,7 +70,7 @@ The problem is that these runtime created classes don't get garbage collected.
  => 70366307844540 
 ```
 
-We've taken the _object_id_ of both the objects. Let's set the references to nil and run the GC.
+We've taken the _object_id_ of the model object and runtime created delegator class(which is an instance of class _Class_ of course). Let's set the references to nil and run the GC.
 
 ```
 1.9.3p194 :014 > local_variables
@@ -80,7 +81,7 @@ We've taken the _object_id_ of both the objects. Let's set the references to nil
  => nil 
 ```
 
-Now let's use those object_ids to check whether they are GCed.
+Now let's use those object_ids to check whether they get GCed.
 
 ```
 1.9.3p194 :011 > ObjectSpace._id2ref e_object_id
@@ -96,6 +97,7 @@ RangeError: 0x003fff6ec881bc is recycled object
  => #<Class:0x007ffeddb0c1e0> 
 ```
 
-So, the runtime created anonymous classes never get GCed and they stack up into memory. 
+So, the runtime created anonymous classes never get GCed and stay in memory. This the reason why
+the memory was kept on increasing for every request.
 
-We fixed it by replacing _validation_scopes_ with _activemodel-warnings_.
+We fixed it by replacing _validation_scopes_ with [_activemodel-warnings_](https://github.com/paneq/activemodel-warnings).

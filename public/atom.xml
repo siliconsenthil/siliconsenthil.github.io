@@ -4,7 +4,7 @@
   <title><![CDATA[siliconsenthil.in]]></title>
   <link href="http://siliconsenthil.herokuapp.com/atom.xml" rel="self"/>
   <link href="http://siliconsenthil.herokuapp.com/"/>
-  <updated>2013-01-19T22:58:04+05:30</updated>
+  <updated>2013-01-19T23:27:17+05:30</updated>
   <id>http://siliconsenthil.herokuapp.com/</id>
   <author>
     <name><![CDATA[Senthil V S]]></name>
@@ -14,15 +14,18 @@
 
   
   <entry>
-    <title type="html"><![CDATA[validation scopes leaks memory]]></title>
+    <title type="html"><![CDATA[Memory leaks with <i>validation_scopes</i>]]></title>
     <link href="http://siliconsenthil.herokuapp.com/blog/2013/01/19/validation-scopes-leaks-memory/"/>
     <updated>2013-01-19T17:50:00+05:30</updated>
     <id>http://siliconsenthil.herokuapp.com/blog/2013/01/19/validation-scopes-leaks-memory</id>
     <content type="html"><![CDATA[<p>We had a requirement in our app to ignore few validations by just showing warnings to user and continuing the object to save.
-The gem <em>validation_scopes</em> seemed to be a right choice and we used it.</p>
+The gem <a href="https://github.com/gtd/validation_scopes"><em>validation_scopes</em></a> seemed to be a right choice and we used it.</p>
 
 <p>We faced memory issues and <a href="http://siliconsenthil.herokuapp.com/blog/2013/01/19/how-we-debugged-rails-memory-leak/">figured out</a>
-<code>model.has_warnings?</code> was causing issue.</p>
+<code>model.has_warnings?</code> of <em>validation_scopes</em> was causing issue.</p>
+
+<!--more-->
+
 
 <p>Let&#8217;s take a rails model class <em>Employee</em></p>
 
@@ -85,7 +88,7 @@ The problem is that these runtime created classes don&#8217;t get garbage collec
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>We&#8217;ve taken the <em>object_id</em> of both the objects. Let&#8217;s set the references to nil and run the GC.</p>
+<p>We&#8217;ve taken the <em>object_id</em> of the model object and runtime created delegator class(which is an instance of class <em>Class</em> of course). Let&#8217;s set the references to nil and run the GC.</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="n">p194</span> <span class="p">:</span><span class="mo">014</span> <span class="o">&gt;</span> <span class="nb">local_variables</span>
 </span><span class='line'> <span class="o">=&gt;</span> <span class="o">[</span><span class="ss">:e_object_id</span><span class="p">,</span> <span class="ss">:warning_object_class_id</span><span class="p">,</span> <span class="ss">:warning_object</span><span class="p">,</span> <span class="ss">:e</span><span class="p">,</span> <span class="ss">:_</span><span class="o">]</span>
@@ -96,7 +99,7 @@ The problem is that these runtime created classes don&#8217;t get garbage collec
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Now let&#8217;s use those object_ids to check whether they are GCed.</p>
+<p>Now let&#8217;s use those object_ids to check whether they get GCed.</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="n">p194</span> <span class="p">:</span><span class="mo">011</span> <span class="o">&gt;</span> <span class="no">ObjectSpace</span><span class="o">.</span><span class="n">_id2ref</span> <span class="n">e_object_id</span>
 </span><span class='line'><span class="ss">RangeError</span><span class="p">:</span> <span class="mh">0x003fff6ec881bc</span> <span class="n">is</span> <span class="n">recycled</span> <span class="n">object</span>
@@ -112,9 +115,10 @@ The problem is that these runtime created classes don&#8217;t get garbage collec
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>So, the runtime created anonymous classes never get GCed and they stack up into memory.</p>
+<p>So, the runtime created anonymous classes never get GCed and stay in memory. This the reason why
+the memory was kept on increasing for every request.</p>
 
-<p>We fixed it by replacing <em>validation_scopes</em> with <em>activemodel-warnings</em>.</p>
+<p>We fixed it by replacing <em>validation_scopes</em> with <a href="https://github.com/paneq/activemodel-warnings"><em>activemodel-warnings</em></a>.</p>
 ]]></content>
   </entry>
   
@@ -124,8 +128,11 @@ The problem is that these runtime created classes don&#8217;t get garbage collec
     <updated>2013-01-19T13:29:00+05:30</updated>
     <id>http://siliconsenthil.herokuapp.com/blog/2013/01/19/how-we-debugged-rails-memory-leak</id>
     <content type="html"><![CDATA[<p>We run our app on heroku and kept on getting R14s. Our google and stackoverflow skills did provide
-few suggestions and but din&#8217;t help much. We used few tools (TODO) see the memory usage. They provided who use how much
+few suggestions and but din&#8217;t help much. We used few tools (<a href="https://github.com/brynary/rack-bug">rack_bug</a>, <a href="https://github.com/noahd1/oink">oink</a>) see the memory usage. They provided who use how much <br/>
 but we could make further progress with that. So here&#8217;s what we did to find out.</p>
+
+<!--more-->
+
 
 <ul>
 <li>Figured out what pages create R14
@@ -172,10 +179,10 @@ the problem is with the specific page and not the framework as such.</li>
 
 
 <p><span> Finally, nailed down to <code>model.has_warnings?</code>.</span>
-We use validation_scopes which was the cause in our case. It was creating metaclasses for validation
+We use <a href="https://github.com/gtd/validation_scopes">validation_scopes</a> which was the cause in our case. It was creating metaclasses for validation
 and those classes did not get garbage collected (<a href="http://siliconsenthil.herokuapp.com/blog/2013/01/19/validation-scopes-leaks-memory/">details</a>).</p>
 
-<p>We fixed it by replacing <em>validation_scopes</em> with <em>activemodel-warnings</em>.</p>
+<p>We fixed it by replacing <em>validation_scopes</em> with <a href="https://github.com/paneq/activemodel-warnings"><em>activemodel-warnings</em></a>.</p>
 ]]></content>
   </entry>
   

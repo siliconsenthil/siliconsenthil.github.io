@@ -51,7 +51,7 @@ The gem &hellip;">
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2013/01/19/validation-scopes-leaks-memory/">Validation Scopes Leaks Memory</a></h1>
+      <h1 class="entry-title"><a href="/blog/2013/01/19/validation-scopes-leaks-memory/">Memory Leaks With <i>validation_scopes</i></a></h1>
     
     
       <p class="meta">
@@ -75,104 +75,17 @@ The gem &hellip;">
 
 
   <div class="entry-content"><p>We had a requirement in our app to ignore few validations by just showing warnings to user and continuing the object to save.
-The gem <em>validation_scopes</em> seemed to be a right choice and we used it.</p>
+The gem <a href="https://github.com/gtd/validation_scopes"><em>validation_scopes</em></a> seemed to be a right choice and we used it.</p>
 
 <p>We faced memory issues and <a href="/blog/2013/01/19/how-we-debugged-rails-memory-leak/">figured out</a>
-<code>model.has_warnings?</code> was causing issue.</p>
+<code>model.has_warnings?</code> of <em>validation_scopes</em> was causing issue.</p>
 
-<p>Let&#8217;s take a rails model class <em>Employee</em></p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Employee</span> <span class="o">&lt;</span> <span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Base</span>
-</span><span class='line'>  <span class="n">attr_accessible</span> <span class="ss">:address</span><span class="p">,</span> <span class="ss">:age</span><span class="p">,</span> <span class="ss">:name</span>
-</span><span class='line'>  <span class="n">validates_presence_of</span> <span class="ss">:name</span>
-</span><span class='line'>  <span class="n">validation_scope</span> <span class="ss">:warnings</span> <span class="k">do</span> <span class="o">|</span><span class="n">s</span><span class="o">|</span>
-</span><span class='line'>    <span class="n">s</span><span class="o">.</span><span class="n">validates_presence_of</span> <span class="ss">:address</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="n">p194</span> <span class="p">:</span><span class="mo">001</span> <span class="o">&gt;</span> <span class="n">e</span> <span class="o">=</span> <span class="no">Employee</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s1">&#39;Senthil V S&#39;</span><span class="p">)</span>
-</span><span class='line'> <span class="o">=&gt;</span> <span class="c1">#&lt;Employee id: nil, name: &quot;Senthil V S&quot;, age: nil, address: nil, created_at: nil, updated_at: nil&gt;</span>
-</span><span class='line'><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="n">p194</span> <span class="p">:</span><span class="mo">002</span> <span class="o">&gt;</span> <span class="n">e</span><span class="o">.</span><span class="n">valid?</span>
-</span><span class='line'> <span class="o">=&gt;</span> <span class="kp">true</span>
-</span><span class='line'><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="n">p194</span> <span class="p">:</span><span class="mo">003</span> <span class="o">&gt;</span> <span class="n">e</span><span class="o">.</span><span class="n">instance_variables</span>
-</span><span class='line'> <span class="o">=&gt;</span> <span class="o">[</span><span class="ss">:@attributes</span><span class="p">,</span> <span class="ss">:@association_cache</span><span class="p">,</span> <span class="ss">:@aggregation_cache</span><span class="p">,</span> <span class="ss">:@attributes_cache</span><span class="p">,</span>
-</span><span class='line'> <span class="ss">:@new_record</span><span class="p">,</span> <span class="ss">:@readonly</span><span class="p">,</span> <span class="ss">:@destroyed</span><span class="p">,</span> <span class="ss">:@marked_for_destruction</span><span class="p">,</span> <span class="ss">:@previously_changed</span><span class="p">,</span>
-</span><span class='line'> <span class="ss">:@changed_attributes</span><span class="p">,</span> <span class="ss">:@mass_assignment_options</span><span class="p">,</span> <span class="ss">:@validation_context</span><span class="p">,</span> <span class="ss">:@errors</span><span class="o">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>No problem till now. Now I call <code>has_warnings?</code> on this object.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="n">p194</span> <span class="p">:</span><span class="mo">004</span> <span class="o">&gt;</span> <span class="n">e</span><span class="o">.</span><span class="n">has_warnings?</span>
-</span><span class='line'> <span class="o">=&gt;</span> <span class="kp">true</span>
-</span><span class='line'><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="n">p194</span> <span class="p">:</span><span class="mo">005</span> <span class="o">&gt;</span> <span class="n">e</span><span class="o">.</span><span class="n">instance_variables</span>
-</span><span class='line'> <span class="o">=&gt;</span> <span class="o">[</span><span class="ss">:@attributes</span><span class="p">,</span> <span class="ss">:@association_cache</span><span class="p">,</span> <span class="ss">:@aggregation_cache</span><span class="p">,</span> <span class="ss">:@attributes_cache</span><span class="p">,</span>
-</span><span class='line'> <span class="ss">:@new_record</span><span class="p">,</span> <span class="ss">:@readonly</span><span class="p">,</span> <span class="ss">:@destroyed</span><span class="p">,</span> <span class="ss">:@marked_for_destruction</span><span class="p">,</span> <span class="ss">:@previously_changed</span><span class="p">,</span>
-</span><span class='line'> <span class="ss">:@changed_attributes</span><span class="p">,</span> <span class="ss">:@mass_assignment_options</span><span class="p">,</span> <span class="ss">:@validation_context</span><span class="p">,</span> <span class="ss">:@errors</span><span class="p">,</span> <span class="ss">:@warnings</span><span class="o">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Notice a new instance variable(<code>@warnings</code>)gets set. Let&#8217;s see what it has.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="n">p194</span> <span class="p">:</span><span class="mo">034</span> <span class="o">&gt;</span> <span class="n">warning_object</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">instance_variable_get</span> <span class="ss">:@warnings</span>
-</span><span class='line'> <span class="o">=&gt;</span> <span class="c1">#&lt;Employee id: nil, name: &quot;Senthil V S&quot;, age: nil, address: nil, created_at: nil, updated_at: nil&gt; </span>
-</span><span class='line'><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="n">p194</span> <span class="p">:</span><span class="mo">035</span> <span class="o">&gt;</span> <span class="n">warning_object</span><span class="o">.</span><span class="n">class</span>
-</span><span class='line'> <span class="o">=&gt;</span> <span class="c1">#&lt;Class:0x007ffeddb0c1e0&gt;</span>
-</span><span class='line'><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="n">p194</span> <span class="p">:</span><span class="mo">036</span> <span class="o">&gt;</span> <span class="n">warning_object</span><span class="o">.</span><span class="n">class</span><span class="o">.</span><span class="n">ancestors</span>
-</span><span class='line'> <span class="o">=&gt;</span> <span class="o">[</span><span class="c1">#&lt;Class:0x007ffeddb0c1e0&gt;, ActiveModel::Validations::HelperMethods,</span>
-</span><span class='line'> <span class="ss">ActiveModel</span><span class="p">:</span><span class="ss">:Validations</span><span class="p">,</span> <span class="ss">ActiveSupport</span><span class="p">:</span><span class="ss">:Callbacks</span><span class="p">,</span> <span class="c1">#&lt;Class:0x007ffeddba5f70&gt;,</span>
-</span><span class='line'> <span class="no">Delegator</span><span class="p">,</span> <span class="c1">#&lt;Module:0x007ffedcb35eb0&gt;, BasicObject]  </span>
-</span><span class='line'><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="n">p194</span> <span class="p">:</span><span class="mo">037</span> <span class="o">&gt;</span> <span class="n">warning_object</span><span class="o">.</span><span class="n">__getobj__</span> <span class="o">==</span> <span class="n">e</span>
-</span><span class='line'> <span class="o">=&gt;</span> <span class="kp">true</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>What <code>@warnings</code>  has is an object of class defined during runtime by <em>DelegatorClass</em> .
-The problem is that these runtime created classes don&#8217;t get garbage collected.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="n">p194</span> <span class="p">:</span><span class="mo">007</span> <span class="o">&gt;</span> <span class="n">warning_object_class_id</span> <span class="o">=</span> <span class="n">warning_object</span><span class="o">.</span><span class="n">class</span><span class="o">.</span><span class="n">object_id</span>
-</span><span class='line'> <span class="o">=&gt;</span> <span class="mi">70366308884720</span>
-</span><span class='line'><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="n">p194</span> <span class="p">:</span><span class="mo">00</span><span class="mi">8</span> <span class="o">&gt;</span> <span class="n">e_object_id</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">object_id</span>
-</span><span class='line'> <span class="o">=&gt;</span> <span class="mi">70366307844540</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>We&#8217;ve taken the <em>object_id</em> of both the objects. Let&#8217;s set the references to nil and run the GC.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="n">p194</span> <span class="p">:</span><span class="mo">014</span> <span class="o">&gt;</span> <span class="nb">local_variables</span>
-</span><span class='line'> <span class="o">=&gt;</span> <span class="o">[</span><span class="ss">:e_object_id</span><span class="p">,</span> <span class="ss">:warning_object_class_id</span><span class="p">,</span> <span class="ss">:warning_object</span><span class="p">,</span> <span class="ss">:e</span><span class="p">,</span> <span class="ss">:_</span><span class="o">]</span>
-</span><span class='line'> <span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="n">p194</span> <span class="p">:</span><span class="mo">00</span><span class="mi">9</span> <span class="o">&gt;</span> <span class="n">warning_object</span> <span class="o">=</span> <span class="n">e</span> <span class="o">=</span> <span class="kp">nil</span>
-</span><span class='line'> <span class="o">=&gt;</span> <span class="kp">nil</span>
-</span><span class='line'><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="n">p194</span> <span class="p">:</span><span class="mo">010</span> <span class="o">&gt;</span> <span class="no">GC</span><span class="o">.</span><span class="n">start</span>
-</span><span class='line'> <span class="o">=&gt;</span> <span class="kp">nil</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Now let&#8217;s use those object_ids to check whether they are GCed.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="n">p194</span> <span class="p">:</span><span class="mo">011</span> <span class="o">&gt;</span> <span class="no">ObjectSpace</span><span class="o">.</span><span class="n">_id2ref</span> <span class="n">e_object_id</span>
-</span><span class='line'><span class="ss">RangeError</span><span class="p">:</span> <span class="mh">0x003fff6ec881bc</span> <span class="n">is</span> <span class="n">recycled</span> <span class="n">object</span>
-</span><span class='line'>  <span class="n">from</span> <span class="p">(</span><span class="n">irb</span><span class="p">):</span><span class="mi">11</span><span class="ss">:in</span> <span class="sb">`_id2ref&#39;</span>
-</span><span class='line'><span class="sb"> from (irb):11</span>
-</span><span class='line'><span class="sb"> from /Users/senthilvs/.rvm/gems/ruby-1.9.3-p194@global/gems/railties-3.2.10/lib/rails/commands/console.rb:47:in `</span><span class="n">start</span><span class="s1">&#39;</span>
-</span><span class='line'><span class="s1"> from /Users/senthilvs/.rvm/gems/ruby-1.9.3-p194@global/gems/railties-3.2.10/lib/rails/commands/console.rb:8:in `start&#39;</span>
-</span><span class='line'>  <span class="n">from</span> <span class="sr">/Users/sen</span><span class="n">thilvs</span><span class="o">/.</span><span class="n">rvm</span><span class="o">/</span><span class="n">gems</span><span class="o">/</span><span class="n">ruby</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="o">-</span><span class="n">p194</span><span class="vi">@global</span><span class="o">/</span><span class="n">gems</span><span class="o">/</span><span class="n">railties</span><span class="o">-</span><span class="mi">3</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">10</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">rails</span><span class="o">/</span><span class="n">commands</span><span class="o">.</span><span class="n">rb</span><span class="p">:</span><span class="mi">41</span><span class="ss">:in</span> <span class="sb">`&lt;top (required)&gt;&#39;</span>
-</span><span class='line'><span class="sb"> from script/rails:6:in `</span><span class="nb">require</span><span class="s1">&#39;</span>
-</span><span class='line'><span class="s1"> from script/rails:6:in `&lt;main&gt;&#39;</span>
-</span><span class='line'><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span><span class="n">p194</span> <span class="p">:</span><span class="mo">012</span> <span class="o">&gt;</span> <span class="no">ObjectSpace</span><span class="o">.</span><span class="n">_id2ref</span> <span class="n">warning_object_class_id</span>
-</span><span class='line'> <span class="o">=&gt;</span> <span class="c1">#&lt;Class:0x007ffeddb0c1e0&gt; </span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>So, the runtime created anonymous classes never get GCed and they stack up into memory.</p>
-
-<p>We fixed it by replacing <em>validation_scopes</em> with <em>activemodel-warnings</em>.</p>
 </div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/01/19/validation-scopes-leaks-memory/">Read on &rarr;</a>
+    </footer>
   
 
 
@@ -207,60 +120,15 @@ The problem is that these runtime created classes don&#8217;t get garbage collec
 
 
   <div class="entry-content"><p>We run our app on heroku and kept on getting R14s. Our google and stackoverflow skills did provide
-few suggestions and but din&#8217;t help much. We used few tools (TODO) see the memory usage. They provided who use how much
+few suggestions and but din&#8217;t help much. We used few tools (<a href="https://github.com/brynary/rack-bug">rack_bug</a>, <a href="https://github.com/noahd1/oink">oink</a>) see the memory usage. They provided who use how much <br/>
 but we could make further progress with that. So here&#8217;s what we did to find out.</p>
 
-<ul>
-<li>Figured out what pages create R14
-
-<ul>
-<li>Observe pattern of usage</li>
-<li>Load test app with multiple usage paths. Figure out which falls soon.</li>
-</ul>
-</li>
-</ul>
-
-
-<p>This is more of finding usage patterns and making guesses. We should ascertain our guess with heavily loading the suspected page(s) and see the memory pattern. We had a page that was most frequently used. We hit it with jmeter and within in minutes it ended up with R14.</p>
-
-
-<ul>
-<li>Replicated the leak in local machine.
-
-<ul>
-<li>Ran the app in production environment and kept hitting the page.</li>
-<li>Used <code>vmmap</code> to find out memory usage pattern. (You can use <em>smap</em> or <em>pmap</em> as well.)</li>
-<li>Saw the memory usage keep on increasing and never getting stabilized.</li>
-</ul>
-</li>
-</ul>
-
-
-<p> When we start the rails app and start visiting pages, the memory goes up. It increases to certain extent and gets stable after
-a while. Don&#8217;t be misguided by the initial increase in memory as memory leak. It happens for all the pages. But, it gets stable soon. For leaking pages, the memory never gets stabilized.
-</p>
-
-
-<ul>
-<li>Drilled down and found the code that leaks.
-
-<ul>
-<li>Removed the action and view code and rendered the page and saw memory was stable. This is to ensure
-the problem is with the specific page and not the framework as such.</li>
-<li>Added code step-by-step in chunks and observed memory usage.</li>
-<li>Figured out which chunk leaks the memory.</li>
-</ul>
-</li>
-</ul>
-
-
-<p><span> Finally, nailed down to <code>model.has_warnings?</code>.</span>
-We use validation_scopes which was the cause in our case. It was creating metaclasses for validation
-and those classes did not get garbage collected (<a href="/blog/2013/01/19/validation-scopes-leaks-memory/">details</a>).</p>
-
-<p>We fixed it by replacing <em>validation_scopes</em> with <em>activemodel-warnings</em>.</p>
 </div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/01/19/how-we-debugged-rails-memory-leak/">Read on &rarr;</a>
+    </footer>
   
 
 
