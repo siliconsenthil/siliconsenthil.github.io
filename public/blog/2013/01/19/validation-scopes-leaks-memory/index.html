@@ -1,27 +1,80 @@
-<?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[siliconsenthil.in]]></title>
-  <link href="http://siliconsenthil.herokuapp.com/atom.xml" rel="self"/>
-  <link href="http://siliconsenthil.herokuapp.com/"/>
-  <updated>2013-01-19T22:58:04+05:30</updated>
-  <id>http://siliconsenthil.herokuapp.com/</id>
-  <author>
-    <name><![CDATA[Senthil V S]]></name>
-    
-  </author>
-  <generator uri="http://octopress.org/">Octopress</generator>
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>validation scopes leaks memory - siliconsenthil.in</title>
+  <meta name="author" content="Senthil V S">
 
   
-  <entry>
-    <title type="html"><![CDATA[validation scopes leaks memory]]></title>
-    <link href="http://siliconsenthil.herokuapp.com/blog/2013/01/19/validation-scopes-leaks-memory/"/>
-    <updated>2013-01-19T17:50:00+05:30</updated>
-    <id>http://siliconsenthil.herokuapp.com/blog/2013/01/19/validation-scopes-leaks-memory</id>
-    <content type="html"><![CDATA[<p>We had a requirement in our app to ignore few validations by just showing warnings to user and continuing the object to save.
+  <meta name="description" content="We had a requirement in our app to ignore few validations by just showing warnings to user and continuing the object to save.
+The gem &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://siliconsenthil.herokuapp.com/blog/2013/01/19/validation-scopes-leaks-memory/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="siliconsenthil.in" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">siliconsenthil.in</a></h1>
+  
+</hgroup>
+
+</header>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Validation Scopes Leaks Memory</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-19T17:50:00+05:30" pubdate data-updated="true">Jan 19<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>We had a requirement in our app to ignore few validations by just showing warnings to user and continuing the object to save.
 The gem <em>validation_scopes</em> seemed to be a right choice and we used it.</p>
 
-<p>We faced memory issues and <a href="http://siliconsenthil.herokuapp.com/blog/2013/01/19/how-we-debugged-rails-memory-leak/">figured out</a>
+<p>We faced memory issues and <a href="/blog/2013/01/19/how-we-debugged-rails-memory-leak/">figured out</a>
 <code>model.has_warnings?</code> was causing issue.</p>
 
 <p>Let&#8217;s take a rails model class <em>Employee</em></p>
@@ -115,68 +168,84 @@ The problem is that these runtime created classes don&#8217;t get garbage collec
 <p>So, the runtime created anonymous classes never get GCed and they stack up into memory.</p>
 
 <p>We fixed it by replacing <em>validation_scopes</em> with <em>activemodel-warnings</em>.</p>
-]]></content>
-  </entry>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
   
-  <entry>
-    <title type="html"><![CDATA[How we debugged rails memory leak]]></title>
-    <link href="http://siliconsenthil.herokuapp.com/blog/2013/01/19/how-we-debugged-rails-memory-leak/"/>
-    <updated>2013-01-19T13:29:00+05:30</updated>
-    <id>http://siliconsenthil.herokuapp.com/blog/2013/01/19/how-we-debugged-rails-memory-leak</id>
-    <content type="html"><![CDATA[<p>We run our app on heroku and kept on getting R14s. Our google and stackoverflow skills did provide
-few suggestions and but din&#8217;t help much. We used few tools (TODO) see the memory usage. They provided who use how much
-but we could make further progress with that. So here&#8217;s what we did to find out.</p>
 
-<ul>
-<li>Figured out what pages create R14
+<span class="byline author vcard">Posted by <span class="fn">Senthil V S</span></span>
 
-<ul>
-<li>Observe pattern of usage</li>
-<li>Load test app with multiple usage paths. Figure out which falls soon.</li>
-</ul>
-</li>
-</ul>
+      
 
 
-<p>This is more of finding usage patterns and making guesses. We should ascertain our guess with heavily loading the suspected page(s) and see the memory pattern. We had a page that was most frequently used. We hit it with jmeter and within in minutes it ended up with R14.</p>
 
 
-<ul>
-<li>Replicated the leak in local machine.
-
-<ul>
-<li>Ran the app in production environment and kept hitting the page.</li>
-<li>Used <code>vmmap</code> to find out memory usage pattern. (You can use <em>smap</em> or <em>pmap</em> as well.)</li>
-<li>Saw the memory usage keep on increasing and never getting stabilized.</li>
-</ul>
-</li>
-</ul>
 
 
-<p> When we start the rails app and start visiting pages, the memory goes up. It increases to certain extent and gets stable after
-a while. Don&#8217;t be misguided by the initial increase in memory as memory leak. It happens for all the pages. But, it gets stable soon. For leaking pages, the memory never gets stabilized.
-</p>
 
 
-<ul>
-<li>Drilled down and found the code that leaks.
-
-<ul>
-<li>Removed the action and view code and rendered the page and saw memory was stable. This is to ensure
-the problem is with the specific page and not the framework as such.</li>
-<li>Added code step-by-step in chunks and observed memory usage.</li>
-<li>Figured out which chunk leaks the memory.</li>
-</ul>
-</li>
-</ul>
-
-
-<p><span> Finally, nailed down to <code>model.has_warnings?</code>.</span>
-We use validation_scopes which was the cause in our case. It was creating metaclasses for validation
-and those classes did not get garbage collected (<a href="http://siliconsenthil.herokuapp.com/blog/2013/01/19/validation-scopes-leaks-memory/">details</a>).</p>
-
-<p>We fixed it by replacing <em>validation_scopes</em> with <em>activemodel-warnings</em>.</p>
-]]></content>
-  </entry>
   
-</feed>
+
+
+<time datetime="2013-01-19T17:50:00+05:30" pubdate data-updated="true">Jan 19<span>th</span>, 2013</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://siliconsenthil.herokuapp.com/blog/2013/01/19/validation-scopes-leaks-memory/" data-via="siliconsenthil" data-counturl="http://siliconsenthil.herokuapp.com/blog/2013/01/19/validation-scopes-leaks-memory/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/01/19/how-we-debugged-rails-memory-leak/" title="Previous Post: How we debugged rails memory leak">&laquo; How we debugged rails memory leak</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    
+  
+</aside>
+
+
+    </div>
+  </div>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

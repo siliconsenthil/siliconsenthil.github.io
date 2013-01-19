@@ -29,6 +29,6 @@ a while. Don't be misguided by the initial increase in memory as memory leak. It
 
 <span> Finally, nailed down to <code>model.has_warnings?</code>.</span>
 We use validation_scopes which was the cause in our case. It was creating metaclasses for validation
-and those classes did not get garbage collected.
+and those classes did not get garbage collected ([details](/blog/2013/01/19/validation-scopes-leaks-memory/)). 
 
 We fixed it by replacing _validation_scopes_ with _activemodel-warnings_.

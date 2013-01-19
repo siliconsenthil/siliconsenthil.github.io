@@ -121,7 +121,7 @@ the problem is with the specific page and not the framework as such.</li>
 
 <p><span> Finally, nailed down to <code>model.has_warnings?</code>.</span>
 We use validation_scopes which was the cause in our case. It was creating metaclasses for validation
-and those classes did not get garbage collected.</p>
+and those classes did not get garbage collected (<a href="/blog/2013/01/19/validation-scopes-leaks-memory/">details</a>).</p>
 
 <p>We fixed it by replacing <em>validation_scopes</em> with <em>activemodel-warnings</em>.</p>
 </div>
@@ -163,6 +163,8 @@ and those classes did not get garbage collected.</p>
     
     <p class="meta">
       
+      
+        <a class="basic-alignment right" href="/blog/2013/01/19/validation-scopes-leaks-memory/" title="Next Post: validation scopes leaks memory">validation scopes leaks memory &raquo;</a>
       
     </p>
   </footer>
