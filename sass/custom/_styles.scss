@@ -3,3 +3,5 @@
 html, div#content, footer {background: white;}
 div#content {border:0;}
 p.meta {display: none}
+body > header {padding-bottom: 0}
+#content .blog-index article {padding-top: 0;}
