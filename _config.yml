@@ -7,7 +7,8 @@ title: siliconsenthil.in
 subtitle: 
 author: Senthil V S
 simple_search:
-description:
+description: Tips, tricks, and hacks on Ruby on Rails development.
+keywords: ruby,ruby on rails,heroku,gem,web development,memory leak,
 
 # Default date format is "ordinal" (resulting in "July 22nd 2007")
 # You can customize the format as defined in

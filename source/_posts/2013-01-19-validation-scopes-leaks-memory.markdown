@@ -3,7 +3,9 @@ layout: post
 title: "Memory leaks with <i>validation_scopes</i>"
 date: 2013-01-19 17:50
 comments: true
-categories: 
+categories: [rails]
+keywords: rails,memory leak,validation_scopes,heroku
+description: "Memory leaks with validation_scopes"
 ---
 
 We had a requirement in our app to ignore few validations by just showing warnings to user and continuing the object to save.

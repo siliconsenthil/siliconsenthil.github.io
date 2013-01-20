@@ -1,12 +1,14 @@
 ---
 layout: post
-title: "How we debugged rails memory leak"
+title: "How we debugged memory leak in a rails app."
 date: 2013-01-19 13:29
 comments: true
-categories: 
+categories: [rails, heroku]
+keywords: rails, memory leak, validation_scopes, heoku, rails 3
+description: "How we debugged memory leak in a rails app."
 ---
 
-We run our app on heroku and kept on getting R14s. Our google and stackoverflow skills did provide
+We run our app on heroku and kept on getting [R14](https://devcenter.heroku.com/articles/error-codes#r14-memory-quota-exceeded)s. Our google and stackoverflow skills did provide
 few suggestions and but din't help much. We used few tools ([rack_bug](https://github.com/brynary/rack-bug), [oink](https://github.com/noahd1/oink)) see the memory usage. They provided who use how much   
 but we could make further progress with that. So here's what we did to find out.
 <!--more-->

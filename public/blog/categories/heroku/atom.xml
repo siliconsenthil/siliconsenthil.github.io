@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: heroku | siliconsenthil.in]]></title>
+  <link href="http://siliconsenthil.herokuapp.com/blog/categories/heroku/atom.xml" rel="self"/>
+  <link href="http://siliconsenthil.herokuapp.com/"/>
+  <updated>2013-01-20T13:06:33+05:30</updated>
+  <id>http://siliconsenthil.herokuapp.com/</id>
+  <author>
+    <name><![CDATA[Senthil V S]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[How we debugged memory leak in a rails app.]]></title>
+    <link href="http://siliconsenthil.herokuapp.com/blog/2013/01/19/how-we-debugged-rails-memory-leak/"/>
+    <updated>2013-01-19T13:29:00+05:30</updated>
+    <id>http://siliconsenthil.herokuapp.com/blog/2013/01/19/how-we-debugged-rails-memory-leak</id>
+    <content type="html"><![CDATA[<p>We run our app on heroku and kept on getting <a href="https://devcenter.heroku.com/articles/error-codes#r14-memory-quota-exceeded">R14</a>s. Our google and stackoverflow skills did provide
+few suggestions and but din't help much. We used few tools (<a href="https://github.com/brynary/rack-bug">rack_bug</a>, <a href="https://github.com/noahd1/oink">oink</a>) see the memory usage. They provided who use how much <br/>
+but we could make further progress with that. So here's what we did to find out.</p>
+
+<!--more-->
+
+
+<ul>
+<li>Figured out what pages create R14
+
+<ul>
+<li>Observe pattern of usage</li>
+<li>Load test app with multiple usage paths. Figure out which falls soon.</li>
+</ul>
+</li>
+</ul>
+
+
+<p>This is more of finding usage patterns and making guesses. We should ascertain our guess with heavily loading the suspected page(s) and see the memory pattern. We had a page that was most frequently used. We hit it with jmeter and within in minutes it ended up with R14.</p>
+
+
+<ul>
+<li>Replicated the leak in local machine.
+
+<ul>
+<li>Ran the app in production environment and kept hitting the page.</li>
+<li>Used <code>vmmap</code> to find out memory usage pattern. (You can use <em>smap</em> or <em>pmap</em> as well.)</li>
+<li>Saw the memory usage keep on increasing and never getting stabilized.</li>
+</ul>
+</li>
+</ul>
+
+
+<p> When we start the rails app and start visiting pages, the memory goes up. It increases to certain extent and gets stable after
+a while. Don't be misguided by the initial increase in memory as memory leak. It happens for all the pages. But, it gets stable soon. For leaking pages, the memory never gets stabilized.
+</p>
+
+
+<ul>
+<li>Drilled down and found the code that leaks.
+
+<ul>
+<li>Removed the action and view code and rendered the page and saw memory was stable. This is to ensure
+the problem is with the specific page and not the framework as such.</li>
+<li>Added code step-by-step in chunks and observed memory usage.</li>
+<li>Figured out which chunk leaks the memory.</li>
+</ul>
+</li>
+</ul>
+
+
+<p><span> Finally, nailed down to <code>model.has_warnings?</code>.</span>
+We use <a href="https://github.com/gtd/validation_scopes">validation_scopes</a> which was the cause in our case. It was creating metaclasses for validation
+and those classes did not get garbage collected (<a href="/blog/2013/01/19/validation-scopes-leaks-memory/">details</a>).</p>
+
+<p>We fixed it by replacing <em>validation_scopes</em> with <a href="https://github.com/paneq/activemodel-warnings"><em>activemodel-warnings</em></a>.</p>
+]]></content>
+  </entry>
+  
+</feed>

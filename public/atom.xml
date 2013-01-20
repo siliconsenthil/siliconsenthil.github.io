@@ -4,7 +4,7 @@
   <title><![CDATA[siliconsenthil.in]]></title>
   <link href="http://siliconsenthil.herokuapp.com/atom.xml" rel="self"/>
   <link href="http://siliconsenthil.herokuapp.com/"/>
-  <updated>2013-01-21T12:24:10+05:30</updated>
+  <updated>2013-01-20T13:06:33+05:30</updated>
   <id>http://siliconsenthil.herokuapp.com/</id>
   <author>
     <name><![CDATA[Senthil V S]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Memory leaks with validation_scopes]]></title>
+    <title type="html"><![CDATA[Memory leaks with <i>validation_scopes</i>]]></title>
     <link href="http://siliconsenthil.herokuapp.com/blog/2013/01/19/validation-scopes-leaks-memory/"/>
     <updated>2013-01-19T17:50:00+05:30</updated>
     <id>http://siliconsenthil.herokuapp.com/blog/2013/01/19/validation-scopes-leaks-memory</id>
@@ -123,11 +123,11 @@ the memory was kept on increasing for every request.</p>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[How we debugged rails memory leak]]></title>
+    <title type="html"><![CDATA[How we debugged memory leak in a rails app.]]></title>
     <link href="http://siliconsenthil.herokuapp.com/blog/2013/01/19/how-we-debugged-rails-memory-leak/"/>
     <updated>2013-01-19T13:29:00+05:30</updated>
     <id>http://siliconsenthil.herokuapp.com/blog/2013/01/19/how-we-debugged-rails-memory-leak</id>
-    <content type="html"><![CDATA[<p>We run our app on heroku and kept on getting R14s. Our google and stackoverflow skills did provide
+    <content type="html"><![CDATA[<p>We run our app on heroku and kept on getting <a href="https://devcenter.heroku.com/articles/error-codes#r14-memory-quota-exceeded">R14</a>s. Our google and stackoverflow skills did provide
 few suggestions and but din&#8217;t help much. We used few tools (<a href="https://github.com/brynary/rack-bug">rack_bug</a>, <a href="https://github.com/noahd1/oink">oink</a>) see the memory usage. They provided who use how much <br/>
 but we could make further progress with that. So here&#8217;s what we did to find out.</p>
 

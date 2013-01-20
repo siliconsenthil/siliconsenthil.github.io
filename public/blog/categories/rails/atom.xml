@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: rails | siliconsenthil.in]]></title>
+  <link href="http://siliconsenthil.herokuapp.com/blog/categories/rails/atom.xml" rel="self"/>
+  <link href="http://siliconsenthil.herokuapp.com/"/>
+  <updated>2013-01-20T13:06:33+05:30</updated>
+  <id>http://siliconsenthil.herokuapp.com/</id>
+  <author>
+    <name><![CDATA[Senthil V S]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Memory leaks with <i>validation_scopes</i>]]></title>
+    <link href="http://siliconsenthil.herokuapp.com/blog/2013/01/19/validation-scopes-leaks-memory/"/>
+    <updated>2013-01-19T17:50:00+05:30</updated>
+    <id>http://siliconsenthil.herokuapp.com/blog/2013/01/19/validation-scopes-leaks-memory</id>
+    <content type="html"><![CDATA[<p>We had a requirement in our app to ignore few validations by just showing warnings to user and continuing the object to save.
+The gem <a href="https://github.com/gtd/validation_scopes"><em>validation_scopes</em></a> seemed to be a right choice and we used it.</p>
+
+<p>We faced memory issues and <a href="/blog/2013/01/19/how-we-debugged-rails-memory-leak/">figured out</a>
+<code>model.has_warnings?</code> of <em>validation_scopes</em> was causing issue.</p>
+
+<!--more-->
+
+
+<p>Let's take a rails model class <em>Employee</em>
+``` ruby
+class Employee &lt; ActiveRecord::Base
+  attr_accessible :address, :age, :name
+  validates_presence_of :name
+  validation_scope :warnings do |s|</p>
+
+<pre><code>s.validates_presence_of :address
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<p><code>
+1.9.3p194 :001 &gt; e = Employee.new(:name =&gt; 'Senthil V S')
+ =&gt; #&lt;Employee id: nil, name: "Senthil V S", age: nil, address: nil, created_at: nil, updated_at: nil&gt;
+1.9.3p194 :002 &gt; e.valid?
+ =&gt; true
+1.9.3p194 :003 &gt; e.instance_variables
+ =&gt; [:@attributes, :@association_cache, :@aggregation_cache, :@attributes_cache,
+ :@new_record, :@readonly, :@destroyed, :@marked_for_destruction, :@previously_changed,
+ :@changed_attributes, :@mass_assignment_options, :@validation_context, :@errors]
+</code></p>
+
+<p>No problem till now. Now I call <code>has_warnings?</code> on this object.
+<code>
+1.9.3p194 :004 &gt; e.has_warnings?
+ =&gt; true
+1.9.3p194 :005 &gt; e.instance_variables
+ =&gt; [:@attributes, :@association_cache, :@aggregation_cache, :@attributes_cache,
+ :@new_record, :@readonly, :@destroyed, :@marked_for_destruction, :@previously_changed,
+ :@changed_attributes, :@mass_assignment_options, :@validation_context, :@errors, :@warnings]
+</code></p>
+
+<p>Notice a new instance variable(<code>@warnings</code>)gets set. Let's see what it has.</p>
+
+<p><code>
+1.9.3p194 :034 &gt; warning_object = e.instance_variable_get :@warnings
+ =&gt; #&lt;Employee id: nil, name: "Senthil V S", age: nil, address: nil, created_at: nil, updated_at: nil&gt;
+1.9.3p194 :035 &gt; warning_object.class
+ =&gt; #&lt;Class:0x007ffeddb0c1e0&gt;
+1.9.3p194 :036 &gt; warning_object.class.ancestors
+ =&gt; [#&lt;Class:0x007ffeddb0c1e0&gt;, ActiveModel::Validations::HelperMethods,
+ ActiveModel::Validations, ActiveSupport::Callbacks, #&lt;Class:0x007ffeddba5f70&gt;,
+ Delegator, #&lt;Module:0x007ffedcb35eb0&gt;, BasicObject]  
+1.9.3p194 :037 &gt; warning_object.__getobj__ == e
+ =&gt; true
+</code></p>
+
+<p>What <code>@warnings</code>  has is an object of class defined during runtime by <em>DelegatorClass</em> .
+The problem is that these runtime created classes don't get garbage collected.</p>
+
+<p><code>
+1.9.3p194 :007 &gt; warning_object_class_id = warning_object.class.object_id
+ =&gt; 70366308884720
+1.9.3p194 :008 &gt; e_object_id = e.object_id
+ =&gt; 70366307844540
+</code></p>
+
+<p>We've taken the <em>object_id</em> of the model object and runtime created delegator class(which is an instance of class <em>Class</em> of course). Let's set the references to nil and run the GC.</p>
+
+<p><code>
+1.9.3p194 :014 &gt; local_variables
+ =&gt; [:e_object_id, :warning_object_class_id, :warning_object, :e, :_]
+ 1.9.3p194 :009 &gt; warning_object = e = nil
+ =&gt; nil
+1.9.3p194 :010 &gt; GC.start
+ =&gt; nil
+</code></p>
+
+<p>Now let's use those object_ids to check whether they get GCed.</p>
+
+<p>```
+1.9.3p194 :011 > ObjectSpace._id2ref e_object_id
+RangeError: 0x003fff6ec881bc is recycled object</p>
+
+<pre><code>from (irb):11:in `_id2ref'
+from (irb):11
+from /Users/senthilvs/.rvm/gems/ruby-1.9.3-p194@global/gems/railties-3.2.10/lib/rails/commands/console.rb:47:in `start'
+from /Users/senthilvs/.rvm/gems/ruby-1.9.3-p194@global/gems/railties-3.2.10/lib/rails/commands/console.rb:8:in `start'
+from /Users/senthilvs/.rvm/gems/ruby-1.9.3-p194@global/gems/railties-3.2.10/lib/rails/commands.rb:41:in `&lt;top (required)&gt;'
+from script/rails:6:in `require'
+from script/rails:6:in `&lt;main&gt;'
+</code></pre>
+
+<p>1.9.3p194 :012 > ObjectSpace._id2ref warning_object_class_id
+ => #&lt;Class:0x007ffeddb0c1e0>
+```</p>
+
+<p>So, the runtime created anonymous classes never get GCed and stay in memory. This the reason why
+the memory was kept on increasing for every request.</p>
+
+<p>We fixed it by replacing <em>validation_scopes</em> with <a href="https://github.com/paneq/activemodel-warnings"><em>activemodel-warnings</em></a>.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[How we debugged memory leak in a rails app.]]></title>
+    <link href="http://siliconsenthil.herokuapp.com/blog/2013/01/19/how-we-debugged-rails-memory-leak/"/>
+    <updated>2013-01-19T13:29:00+05:30</updated>
+    <id>http://siliconsenthil.herokuapp.com/blog/2013/01/19/how-we-debugged-rails-memory-leak</id>
+    <content type="html"><![CDATA[<p>We run our app on heroku and kept on getting <a href="https://devcenter.heroku.com/articles/error-codes#r14-memory-quota-exceeded">R14</a>s. Our google and stackoverflow skills did provide
+few suggestions and but din't help much. We used few tools (<a href="https://github.com/brynary/rack-bug">rack_bug</a>, <a href="https://github.com/noahd1/oink">oink</a>) see the memory usage. They provided who use how much <br/>
+but we could make further progress with that. So here's what we did to find out.</p>
+
+<!--more-->
+
+
+<ul>
+<li>Figured out what pages create R14
+
+<ul>
+<li>Observe pattern of usage</li>
+<li>Load test app with multiple usage paths. Figure out which falls soon.</li>
+</ul>
+</li>
+</ul>
+
+
+<p>This is more of finding usage patterns and making guesses. We should ascertain our guess with heavily loading the suspected page(s) and see the memory pattern. We had a page that was most frequently used. We hit it with jmeter and within in minutes it ended up with R14.</p>
+
+
+<ul>
+<li>Replicated the leak in local machine.
+
+<ul>
+<li>Ran the app in production environment and kept hitting the page.</li>
+<li>Used <code>vmmap</code> to find out memory usage pattern. (You can use <em>smap</em> or <em>pmap</em> as well.)</li>
+<li>Saw the memory usage keep on increasing and never getting stabilized.</li>
+</ul>
+</li>
+</ul>
+
+
+<p> When we start the rails app and start visiting pages, the memory goes up. It increases to certain extent and gets stable after
+a while. Don't be misguided by the initial increase in memory as memory leak. It happens for all the pages. But, it gets stable soon. For leaking pages, the memory never gets stabilized.
+</p>
+
+
+<ul>
+<li>Drilled down and found the code that leaks.
+
+<ul>
+<li>Removed the action and view code and rendered the page and saw memory was stable. This is to ensure
+the problem is with the specific page and not the framework as such.</li>
+<li>Added code step-by-step in chunks and observed memory usage.</li>
+<li>Figured out which chunk leaks the memory.</li>
+</ul>
+</li>
+</ul>
+
+
+<p><span> Finally, nailed down to <code>model.has_warnings?</code>.</span>
+We use <a href="https://github.com/gtd/validation_scopes">validation_scopes</a> which was the cause in our case. It was creating metaclasses for validation
+and those classes did not get garbage collected (<a href="/blog/2013/01/19/validation-scopes-leaks-memory/">details</a>).</p>
+
+<p>We fixed it by replacing <em>validation_scopes</em> with <a href="https://github.com/paneq/activemodel-warnings"><em>activemodel-warnings</em></a>.</p>
+]]></content>
+  </entry>
+  
+</feed>
