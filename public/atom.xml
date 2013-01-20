@@ -4,7 +4,7 @@
   <title><![CDATA[siliconsenthil.in]]></title>
   <link href="http://siliconsenthil.herokuapp.com/atom.xml" rel="self"/>
   <link href="http://siliconsenthil.herokuapp.com/"/>
-  <updated>2013-01-20T00:03:34+05:30</updated>
+  <updated>2013-01-21T12:24:10+05:30</updated>
   <id>http://siliconsenthil.herokuapp.com/</id>
   <author>
     <name><![CDATA[Senthil V S]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Memory leaks with <i>validation_scopes</i>]]></title>
+    <title type="html"><![CDATA[Memory leaks with validation_scopes]]></title>
     <link href="http://siliconsenthil.herokuapp.com/blog/2013/01/19/validation-scopes-leaks-memory/"/>
     <updated>2013-01-19T17:50:00+05:30</updated>
     <id>http://siliconsenthil.herokuapp.com/blog/2013/01/19/validation-scopes-leaks-memory</id>
