@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Blog Archive - siliconsenthil.in</title>
+  <title>Onclick link disabling with jQuery - siliconsenthil.in</title>
   <meta name="author" content="Senthil V S">
   
   <meta name="description" content="Tips, tricks, and hacks on Ruby on Rails development.">
@@ -17,7 +17,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://siliconsenthil.herokuapp.com/blog/archives/">
+  <link rel="canonical" href="http://siliconsenthil.herokuapp.com/blog/2011/04/15/onclick-link-disabling-with-jquery/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -64,81 +64,105 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Blog Archive</h1>
+    
+      <h1 class="entry-title">Onclick Link Disabling With jQuery</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-04-15T16:07:00+05:30" pubdate data-updated="true">Apr 15<span>th</span>, 2011</time>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives">
 
 
+<div class="entry-content"><p>Days back I have come across a common requirement to disable link on clicking it once. Typically, it&#8217;s because on click of those links some AJAX thins happen and some fragments of the page gets updated.</p>
 
-  
-  <h2>2013</h2>
-
-<article>
-  
-<h1><a href="/blog/2013/01/19/validation-scopes-leaks-memory/">Memory leaks with <i>validation_scopes</i></a></h1>
-<time datetime="2013-01-19T17:50:00+05:30" pubdate><span class='month'>Jan</span> <span class='day'>19</span> <span class='year'>2013</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/rails/'>rails</a></span>
-</footer>
+<!--more-->
 
 
-</article>
+<p>I had those sort of links across screens and I have written Javascript using jQuery as &#8216;Unobtrusive Javascript&#8217;. All I gotta do is to add a class called &#8216;link_to_disable&#8217; to the links I wanted to disable.</p>
 
-
-
-<article>
-  
-<h1><a href="/blog/2013/01/19/how-we-debugged-rails-memory-leak/">How we debugged memory leak in a rails app.</a></h1>
-<time datetime="2013-01-19T13:29:00+05:30" pubdate><span class='month'>Jan</span> <span class='day'>19</span> <span class='year'>2013</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/heroku/'>heroku</a>, <a class='category' href='/blog/categories/rails/'>rails</a></span>
-</footer>
-
-
-</article>
-
-
-
-  
-  <h2>2011</h2>
-
-<article>
-  
-<h1><a href="/blog/2011/04/15/onclick-link-disabling-with-jquery/">Onclick link disabling with jQuery</a></h1>
-<time datetime="2011-04-15T16:07:00+05:30" pubdate><span class='month'>Apr</span> <span class='day'>15</span> <span class='year'>2011</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/javascript/'>javascript</a>, <a class='category' href='/blog/categories/jquery/'>jquery</a></span>
-</footer>
-
-
-</article>
-
-
-
-<article>
-  
-<h1><a href="/blog/2011/04/15/if-else-or-switch-case-to-polymorphism/">If else or Switch case to Polymorphism</a></h1>
-<time datetime="2011-04-15T15:59:00+05:30" pubdate><span class='month'>Apr</span> <span class='day'>15</span> <span class='year'>2011</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/design/'>design</a>, <a class='category' href='/blog/categories/java/'>java</a>, <a class='category' href='/blog/categories/oop/'>oop</a></span>
-</footer>
-
-
-</article>
+<iframe style="width: 100%; height: 300px; border: 1px solid black;" src="http://jsfiddle.net/FrBMz/18/embedded#result_trigger" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
 
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">Senthil V S</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-04-15T16:07:00+05:30" pubdate data-updated="true">Apr 15<span>th</span>, 2011</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/javascript/'>javascript</a>, <a class='category' href='/blog/categories/jquery/'>jquery</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://siliconsenthil.herokuapp.com/blog/2011/04/15/onclick-link-disabling-with-jquery/" data-via="siliconsenthil" data-counturl="http://siliconsenthil.herokuapp.com/blog/2011/04/15/onclick-link-disabling-with-jquery/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2011/04/15/if-else-or-switch-case-to-polymorphism/" title="Previous Post: If else or Switch case to Polymorphism">&laquo; If else or Switch case to Polymorphism</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2013/01/19/how-we-debugged-rails-memory-leak/" title="Next Post: How we debugged memory leak in a rails app.">How we debugged memory leak in a rails app. &raquo;</a>
+      
+    </p>
+  </footer>
 </article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 </div>
 
@@ -163,7 +187,10 @@
       var disqus_shortname = 'siliconsenthil';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://siliconsenthil.herokuapp.com/blog/2011/04/15/onclick-link-disabling-with-jquery/';
+        var disqus_url = 'http://siliconsenthil.herokuapp.com/blog/2011/04/15/onclick-link-disabling-with-jquery/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

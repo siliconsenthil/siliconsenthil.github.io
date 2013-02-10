@@ -2,6 +2,18 @@
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
         <loc>
+            http://siliconsenthil.herokuapp.com/blog/2011/04/15/if-else-or-switch-case-to-polymorphism/
+        </loc>
+        <lastmod>2013-02-10T16:45:38+05:30</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://siliconsenthil.herokuapp.com/blog/2011/04/15/onclick-link-disabling-with-jquery/
+        </loc>
+        <lastmod>2013-02-10T16:45:27+05:30</lastmod>
+    </url>
+    <url>
+        <loc>
             http://siliconsenthil.herokuapp.com/blog/2013/01/19/how-we-debugged-rails-memory-leak/
         </loc>
         <lastmod>2013-01-20T13:01:38+05:30</lastmod>
@@ -14,11 +26,11 @@
     </url>
     <url>
         <loc>http://siliconsenthil.herokuapp.com/blog/archives/</loc>
-        <lastmod>2013-01-20T13:01:38+05:30</lastmod>
+        <lastmod>2013-02-10T16:45:38+05:30</lastmod>
     </url>
     <url>
         <loc>http://siliconsenthil.herokuapp.com/</loc>
-        <lastmod>2013-01-20T13:01:38+05:30</lastmod>
+        <lastmod>2013-02-10T16:45:38+05:30</lastmod>
     </url>
     <url>
         <loc>http://siliconsenthil.herokuapp.com/robots.txt</loc>

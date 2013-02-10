@@ -4,7 +4,7 @@
   <title><![CDATA[siliconsenthil.in]]></title>
   <link href="http://siliconsenthil.herokuapp.com/atom.xml" rel="self"/>
   <link href="http://siliconsenthil.herokuapp.com/"/>
-  <updated>2013-01-20T20:07:17+05:30</updated>
+  <updated>2013-02-10T16:45:47+05:30</updated>
   <id>http://siliconsenthil.herokuapp.com/</id>
   <author>
     <name><![CDATA[Senthil V S]]></name>
@@ -183,6 +183,94 @@ We use <a href="https://github.com/gtd/validation_scopes">validation_scopes</a> 
 and those classes did not get garbage collected (<a href="http://siliconsenthil.herokuapp.com/blog/2013/01/19/validation-scopes-leaks-memory/">details</a>).</p>
 
 <p>We fixed it by replacing <em>validation_scopes</em> with <a href="https://github.com/paneq/activemodel-warnings"><em>activemodel-warnings</em></a>.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Onclick link disabling with jQuery]]></title>
+    <link href="http://siliconsenthil.herokuapp.com/blog/2011/04/15/onclick-link-disabling-with-jquery/"/>
+    <updated>2011-04-15T16:07:00+05:30</updated>
+    <id>http://siliconsenthil.herokuapp.com/blog/2011/04/15/onclick-link-disabling-with-jquery</id>
+    <content type="html"><![CDATA[<p>Days back I have come across a common requirement to disable link on clicking it once. Typically, it&#8217;s because on click of those links some AJAX thins happen and some fragments of the page gets updated.</p>
+
+<!--more-->
+
+
+<p>I had those sort of links across screens and I have written Javascript using jQuery as &#8216;Unobtrusive Javascript&#8217;. All I gotta do is to add a class called &#8216;link_to_disable&#8217; to the links I wanted to disable.</p>
+
+<iframe style="width: 100%; height: 300px; border: 1px solid black;" src="http://jsfiddle.net/FrBMz/18/embedded#result_trigger" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[If else or Switch case to Polymorphism]]></title>
+    <link href="http://siliconsenthil.herokuapp.com/blog/2011/04/15/if-else-or-switch-case-to-polymorphism/"/>
+    <updated>2011-04-15T15:59:00+05:30</updated>
+    <id>http://siliconsenthil.herokuapp.com/blog/2011/04/15/if-else-or-switch-case-to-polymorphism</id>
+    <content type="html"><![CDATA[<p>If you try to express your logic in if-else way like this,</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class='java'><span class='line'>  <span class="kd">private</span> <span class="kd">static</span> <span class="n">String</span> <span class="nf">getSoundIfElseWay</span><span class="o">(</span><span class="n">String</span> <span class="n">animal</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>       <span class="k">if</span> <span class="o">(</span><span class="n">animal</span><span class="o">.</span><span class="na">equalsIgnoreCase</span><span class="o">(</span><span class="s">&quot;Dog&quot;</span><span class="o">))</span>
+</span><span class='line'>            <span class="k">return</span> <span class="s">&quot;Bark&quot;</span><span class="o">;</span>
+</span><span class='line'>       <span class="k">else</span> <span class="nf">if</span> <span class="o">(</span><span class="n">animal</span><span class="o">.</span><span class="na">equalsIgnoreCase</span><span class="o">(</span><span class="s">&quot;Cat&quot;</span><span class="o">))</span>
+</span><span class='line'>            <span class="k">return</span> <span class="s">&quot;Mew&quot;</span><span class="o">;</span>
+</span><span class='line'>       <span class="k">else</span> <span class="nf">if</span> <span class="o">(</span><span class="n">animal</span><span class="o">.</span><span class="na">equalsIgnoreCase</span><span class="o">(</span><span class="s">&quot;Lion&quot;</span><span class="o">))</span>
+</span><span class='line'>            <span class="k">return</span> <span class="s">&quot;Roar&quot;</span><span class="o">;</span>
+</span><span class='line'>       <span class="k">return</span> <span class="s">&quot;&quot;</span><span class="o">;</span>
+</span><span class='line'>  <span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>then polymorphic way would be,</p>
+
+<!--more-->
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class='java'><span class='line'> <span class="kd">private</span> <span class="kd">static</span> <span class="n">String</span> <span class="nf">getSoundPolymorphicWay</span><span class="o">(</span><span class="n">Animal</span> <span class="n">animal</span><span class="o">){</span>
+</span><span class='line'>      <span class="k">return</span> <span class="n">animal</span><span class="o">.</span><span class="na">say</span><span class="o">();</span>
+</span><span class='line'> <span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">Animal</span> <span class="o">{</span>
+</span><span class='line'>      <span class="kd">public</span> <span class="kd">abstract</span> <span class="n">String</span> <span class="nf">say</span><span class="o">();</span>
+</span><span class='line'> <span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class='java'><span class='line'> <span class="kd">public</span> <span class="kd">class</span> <span class="nc">Dog</span> <span class="kd">extends</span> <span class="n">Animal</span><span class="o">{</span>
+</span><span class='line'>      <span class="nd">@Override</span>
+</span><span class='line'>      <span class="kd">public</span> <span class="n">String</span> <span class="nf">say</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>           <span class="k">return</span> <span class="s">&quot;Bark&quot;</span><span class="o">;</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'> <span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class='java'><span class='line'> <span class="kd">public</span> <span class="kd">class</span> <span class="nc">Cat</span> <span class="kd">extends</span> <span class="n">Animal</span> <span class="o">{</span>
+</span><span class='line'>      <span class="nd">@Override</span>
+</span><span class='line'>      <span class="kd">public</span> <span class="n">String</span> <span class="nf">say</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>           <span class="k">return</span> <span class="s">&quot;Mew&quot;</span><span class="o">;</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'> <span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class='java'><span class='line'> <span class="kd">public</span> <span class="kd">class</span> <span class="nc">Lion</span> <span class="kd">extends</span> <span class="n">Animal</span> <span class="o">{</span>
+</span><span class='line'>      <span class="nd">@Override</span>
+</span><span class='line'>      <span class="kd">public</span> <span class="n">String</span> <span class="nf">say</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>           <span class="k">return</span> <span class="s">&quot;Roar&quot;</span><span class="o">;</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'> <span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Look at the change in behavior based on the condition. If you could come up with a object than could take this behavior, push that to the corresponding object.</p>
+
+<p>Same rule applies to switch-case also.</p>
 ]]></content>
   </entry>
   

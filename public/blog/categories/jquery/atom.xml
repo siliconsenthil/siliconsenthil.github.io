@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: jquery | siliconsenthil.in]]></title>
+  <link href="http://siliconsenthil.herokuapp.com/blog/categories/jquery/atom.xml" rel="self"/>
+  <link href="http://siliconsenthil.herokuapp.com/"/>
+  <updated>2013-02-10T16:45:47+05:30</updated>
+  <id>http://siliconsenthil.herokuapp.com/</id>
+  <author>
+    <name><![CDATA[Senthil V S]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Onclick link disabling with jQuery]]></title>
+    <link href="http://siliconsenthil.herokuapp.com/blog/2011/04/15/onclick-link-disabling-with-jquery/"/>
+    <updated>2011-04-15T16:07:00+05:30</updated>
+    <id>http://siliconsenthil.herokuapp.com/blog/2011/04/15/onclick-link-disabling-with-jquery</id>
+    <content type="html"><![CDATA[<p>Days back I have come across a common requirement to disable link on clicking it once. Typically, it's because on click of those links some AJAX thins happen and some fragments of the page gets updated.</p>
+
+<!--more-->
+
+
+<p>I had those sort of links across screens and I have written Javascript using jQuery as 'Unobtrusive Javascript'. All I gotta do is to add a class called 'link_to_disable' to the links I wanted to disable.</p>
+
+<iframe style="width: 100%; height: 300px; border: 1px solid black;" src="http://jsfiddle.net/FrBMz/18/embedded#result_trigger" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+
+]]></content>
+  </entry>
+  
+</feed>

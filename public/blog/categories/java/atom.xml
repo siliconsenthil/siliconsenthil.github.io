@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: java | siliconsenthil.in]]></title>
+  <link href="http://siliconsenthil.herokuapp.com/blog/categories/java/atom.xml" rel="self"/>
+  <link href="http://siliconsenthil.herokuapp.com/"/>
+  <updated>2013-02-10T16:45:47+05:30</updated>
+  <id>http://siliconsenthil.herokuapp.com/</id>
+  <author>
+    <name><![CDATA[Senthil V S]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[If else or Switch case to Polymorphism]]></title>
+    <link href="http://siliconsenthil.herokuapp.com/blog/2011/04/15/if-else-or-switch-case-to-polymorphism/"/>
+    <updated>2011-04-15T15:59:00+05:30</updated>
+    <id>http://siliconsenthil.herokuapp.com/blog/2011/04/15/if-else-or-switch-case-to-polymorphism</id>
+    <content type="html"><![CDATA[<p>If you try to express your logic in if-else way like this,
+``` java</p>
+
+<pre><code>  private static String getSoundIfElseWay(String animal) {  
+       if (animal.equalsIgnoreCase("Dog"))  
+            return "Bark";  
+       else if (animal.equalsIgnoreCase("Cat"))  
+            return "Mew";  
+       else if (animal.equalsIgnoreCase("Lion"))  
+            return "Roar";  
+       return "";  
+  }  
+</code></pre>
+
+<p>```</p>
+
+<p>then polymorphic way would be,</p>
+
+<!--more-->
+
+
+<p>``` java
+ private static String getSoundPolymorphicWay(Animal animal){</p>
+
+<pre><code>  return animal.say();  
+</code></pre>
+
+<p> }
+<code>
+</code> java
+public abstract class Animal {</p>
+
+<pre><code>  public abstract String say();  
+</code></pre>
+
+<p> }
+<code>
+</code> java
+ public class Dog extends Animal{</p>
+
+<pre><code>  @Override  
+  public String say() {  
+       return "Bark";  
+  }  
+</code></pre>
+
+<p> }
+```</p>
+
+<p>``` java
+ public class Cat extends Animal {</p>
+
+<pre><code>  @Override  
+  public String say() {  
+       return "Mew";  
+  }  
+</code></pre>
+
+<p> }<br/>
+<code>
+</code> java
+ public class Lion extends Animal {</p>
+
+<pre><code>  @Override  
+  public String say() {  
+       return "Roar";  
+  }  
+</code></pre>
+
+<p> }</p>
+
+<p>```</p>
+
+<p>Look at the change in behavior based on the condition. If you could come up with a object than could take this behavior, push that to the corresponding object.</p>
+
+<p>Same rule applies to switch-case also.</p>
+]]></content>
+  </entry>
+  
+</feed>
