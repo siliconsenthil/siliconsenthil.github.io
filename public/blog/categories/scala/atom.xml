@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: scala | siliconsenthil.in]]></title>
+  <link href="http://siliconsenthil.herokuapp.com/blog/categories/scala/atom.xml" rel="self"/>
+  <link href="http://siliconsenthil.herokuapp.com/"/>
+  <updated>2013-02-15T15:36:13+05:30</updated>
+  <id>http://siliconsenthil.herokuapp.com/</id>
+  <author>
+    <name><![CDATA[Senthil V S]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Iteration, Recursion and Tail recursion]]></title>
+    <link href="http://siliconsenthil.herokuapp.com/blog/2013/02/15/iteration-recursion-and-tail-recursion/"/>
+    <updated>2013-02-15T12:38:00+05:30</updated>
+    <id>http://siliconsenthil.herokuapp.com/blog/2013/02/15/iteration-recursion-and-tail-recursion</id>
+    <content type="html"><![CDATA[<p><strong>Problem:</strong> Given <em>a</em> and <em>b</em>,<br/>find the sum of range of numbers between <em>a</em> and <em>b</em>.<br>E.g. Given 1 and 4, the result is 10 (1+2+3+4). Simple.</p>
+
+<p><strong>Language:</strong> Scala</p>
+
+<p>Let's do this with programmers' favorite, Iteration</p>
+
+<!--more-->
+
+
+<p>```scala</p>
+
+<pre><code>def iterative_sum(a: Long, b: Long):Long =  {
+  var result = 0L;
+  for(i &lt;- a until b){result=result+i}
+  return result+b;
+}
+</code></pre>
+
+<p>```</p>
+
+<p>If we had to do this with recursion,</p>
+
+<p><code>scala
+def sum(a: Long, b: Long): Long = if(a &gt; b) 0 else a + sum(a+1, b)
+</code></p>
+
+<p>This works for smaller values. There's a problem with this for bigger values because the way it's implemented. If we see how it works, it would be obvious to figure that out. Assume the red grid as a limited size stack.</p>
+
+<p><img src="http://i50.tinypic.com/1218htk.png" width="410"></p>
+
+<p>It keeps putting the values to stack till it gets it could evaluate to a value. Till then the expressions are kept in stack.
+Now, you can it throws <em>StackOverflowError</em> for larger input.</p>
+
+<p><img src="http://i45.tinypic.com/2mw8ry1.png" width="410"></p>
+
+<p>This is the problem with recursion. This might be one reason programmers tend to avoid recursion as it might not be obvious to guess when it fails.</p>
+
+<p>If we could write a recursion function that does not force to use stack then we can avoid this error. And that is called as tail recursion. The way is that the last line of the recursion function should be just the recursion and not somthing else to do with the result.</p>
+
+<p>With the help of nested function construct in scala, we could write something like this. Here <code>loop(a,0)</code> is the recusion call. As you can see this is the only expression, it does not require stack to store intermediate result.</p>
+
+<p>```scala</p>
+
+<pre><code>def tail_sum(a: Long, b: Long): Long ={
+  def loop(a: Long, acc: Long): Long = {
+    if(a &gt; b) acc
+    else loop(a+1, acc+a)
+  }
+  loop(a, 0)
+} 
+</code></pre>
+
+<p>```</p>
+
+<p>I tried the above all in for a large value (>6998 in my mac) saw recursion failing while iteration and tail recursion are able to return result.</p>
+
+<p><div><script src='https://gist.github.com/4959395.js?file=IterationRecursionTailRecursion.scala'></script>
+<noscript><pre><code>object RecursionVsTailRecursion extends App {
+  
+	def iterative_sum(a: Long, b: Long):Long =  {
+	  var result = 0L;
+	  for(i &lt;- a until b){result=result+i}
+	  return result+b;
+	}
+  
+  	def sum(a: Long, b: Long): Long = if(a &gt; b) 0 else a + sum(a+1, b)
+  	
+  	def tail_sum(a: Long, b: Long): Long ={
+  	  def loop(a: Long, acc: Long): Long = {
+  	    if(a &gt; b) acc
+  	    else loop(a+1, acc+a)
+  	  }
+  	  loop(a, 0)
+  	} 
+  	  
+  			
+  	val last = 6998
+  	println(iterative_sum(1, last))
+  	println(tail_sum(1, last))
+  	println(sum(1,last))
+
+}</code></pre></noscript></div>
+</p>
+]]></content>
+  </entry>
+  
+</feed>

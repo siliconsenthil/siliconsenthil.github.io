@@ -1,0 +1,310 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Iteration, Recursion and Tail recursion - siliconsenthil.in</title>
+  <meta name="author" content="Senthil V S">
+  
+  <meta name="description" content="Understanding the differences between Iteraion, Recursion and Tail Recursion using a Scala example.">
+  <meta name="keywords" content="scala,programming,recursion">
+  
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://siliconsenthil.herokuapp.com/blog/2013/02/15/iteration-recursion-and-tail-recursion/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="siliconsenthil.in" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=Cabin+Condensed:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=Oxygen:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-31700132-2']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">siliconsenthil.in</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<ul class="main-navigation">
+  <li><a href="http://about.me/siliconsenthil" target="_blank">about</a></li>
+  <li><a href="/blog/archives">posts</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Iteration, Recursion and Tail Recursion</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-15T12:38:00+05:30" pubdate data-updated="true">Feb 15<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><strong>Problem:</strong> Given <em>a</em> and <em>b</em>,<br/>find the sum of range of numbers between <em>a</em> and <em>b</em>.<br>E.g. Given 1 and 4, the result is 10 (1+2+3+4). Simple.</p>
+
+<p><strong>Language:</strong> Scala</p>
+
+<p>Let&#8217;s do this with programmers&#8217; favorite, Iteration</p>
+
+<!--more-->
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">def</span> <span class="n">iterative_sum</span><span class="o">(</span><span class="n">a</span><span class="k">:</span> <span class="kt">Long</span><span class="o">,</span> <span class="n">b</span><span class="k">:</span> <span class="kt">Long</span><span class="o">)</span><span class="k">:</span><span class="kt">Long</span> <span class="o">=</span>  <span class="o">{</span>
+</span><span class='line'>  <span class="k">var</span> <span class="n">result</span> <span class="k">=</span> <span class="mi">0L</span><span class="o">;</span>
+</span><span class='line'>  <span class="k">for</span><span class="o">(</span><span class="n">i</span> <span class="k">&lt;-</span> <span class="n">a</span> <span class="n">until</span> <span class="n">b</span><span class="o">){</span><span class="n">result</span><span class="k">=</span><span class="n">result</span><span class="o">+</span><span class="n">i</span><span class="o">}</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">result</span><span class="o">+</span><span class="n">b</span><span class="o">;</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If we had to do this with recursion,</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">def</span> <span class="n">sum</span><span class="o">(</span><span class="n">a</span><span class="k">:</span> <span class="kt">Long</span><span class="o">,</span> <span class="n">b</span><span class="k">:</span> <span class="kt">Long</span><span class="o">)</span><span class="k">:</span> <span class="kt">Long</span> <span class="o">=</span> <span class="k">if</span><span class="o">(</span><span class="n">a</span> <span class="o">&gt;</span> <span class="n">b</span><span class="o">)</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">a</span> <span class="o">+</span> <span class="n">sum</span><span class="o">(</span><span class="n">a</span><span class="o">+</span><span class="mi">1</span><span class="o">,</span> <span class="n">b</span><span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This works for smaller values. There&#8217;s a problem with this for bigger values because the way it&#8217;s implemented. If we see how it works, it would be obvious to figure that out. Assume the red grid as a limited size stack.</p>
+
+<p><img src="http://i50.tinypic.com/1218htk.png" width="410"></p>
+
+<p>It keeps putting the values to stack till it gets it could evaluate to a value. Till then the expressions are kept in stack.
+Now, you can it throws <em>StackOverflowError</em> for larger input.</p>
+
+<p><img src="http://i45.tinypic.com/2mw8ry1.png" width="410"></p>
+
+<p>This is the problem with recursion. This might be one reason programmers tend to avoid recursion as it might not be obvious to guess when it fails.</p>
+
+<p>If we could write a recursion function that does not force to use stack then we can avoid this error. And that is called as tail recursion. The way is that the last line of the recursion function should be just the recursion and not somthing else to do with the result.</p>
+
+<p>With the help of nested function construct in scala, we could write something like this. Here <code>loop(a,0)</code> is the recusion call. As you can see this is the only expression, it does not require stack to store intermediate result.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">def</span> <span class="n">tail_sum</span><span class="o">(</span><span class="n">a</span><span class="k">:</span> <span class="kt">Long</span><span class="o">,</span> <span class="n">b</span><span class="k">:</span> <span class="kt">Long</span><span class="o">)</span><span class="k">:</span> <span class="kt">Long</span> <span class="o">={</span>
+</span><span class='line'>  <span class="k">def</span> <span class="n">loop</span><span class="o">(</span><span class="n">a</span><span class="k">:</span> <span class="kt">Long</span><span class="o">,</span> <span class="n">acc</span><span class="k">:</span> <span class="kt">Long</span><span class="o">)</span><span class="k">:</span> <span class="kt">Long</span> <span class="o">=</span> <span class="o">{</span>
+</span><span class='line'>    <span class="k">if</span><span class="o">(</span><span class="n">a</span> <span class="o">&gt;</span> <span class="n">b</span><span class="o">)</span> <span class="n">acc</span>
+</span><span class='line'>    <span class="k">else</span> <span class="n">loop</span><span class="o">(</span><span class="n">a</span><span class="o">+</span><span class="mi">1</span><span class="o">,</span> <span class="n">acc</span><span class="o">+</span><span class="n">a</span><span class="o">)</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>  <span class="n">loop</span><span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I tried the above all in for a large value (>6998 in my mac) saw recursion failing while iteration and tail recursion are able to return result.</p>
+
+<div><script src='https://gist.github.com/4959395.js?file=IterationRecursionTailRecursion.scala'></script>
+<noscript><pre><code>object RecursionVsTailRecursion extends App {
+  
+    def iterative_sum(a: Long, b: Long):Long =  {
+      var result = 0L;
+      for(i &lt;- a until b){result=result+i}
+      return result+b;
+    }
+  
+    def sum(a: Long, b: Long): Long = if(a &gt; b) 0 else a + sum(a+1, b)
+    
+    def tail_sum(a: Long, b: Long): Long ={
+      def loop(a: Long, acc: Long): Long = {
+        if(a &gt; b) acc
+        else loop(a+1, acc+a)
+      }
+      loop(a, 0)
+    } 
+      
+            
+    val last = 6998
+    println(iterative_sum(1, last))
+    println(tail_sum(1, last))
+    println(sum(1,last))
+
+}</code></pre></noscript></div>
+
+
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Senthil V S</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-15T12:38:00+05:30" pubdate data-updated="true">Feb 15<span>th</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/programming/'>programming</a>, <a class='category' href='/blog/categories/scala/'>scala</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://siliconsenthil.herokuapp.com/blog/2013/02/15/iteration-recursion-and-tail-recursion/" data-via="siliconsenthil" data-counturl="http://siliconsenthil.herokuapp.com/blog/2013/02/15/iteration-recursion-and-tail-recursion/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/01/19/validation-scopes-leaks-memory/" title="Previous Post: Memory leaks with <i>validation_scopes</i>">&laquo; Memory leaks with <i>validation_scopes</i></a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Senthil V S -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'siliconsenthil';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://siliconsenthil.herokuapp.com/blog/2013/02/15/iteration-recursion-and-tail-recursion/';
+        var disqus_url = 'http://siliconsenthil.herokuapp.com/blog/2013/02/15/iteration-recursion-and-tail-recursion/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
