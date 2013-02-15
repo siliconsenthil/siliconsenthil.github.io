@@ -35,7 +35,7 @@ This works for smaller values. There's a problem with this for bigger values bec
 
 {% img http://i50.tinypic.com/1218htk.png 410px %}
 
-It keeps putting the values to stack till it gets it could evaluate to a value. Till then the expressions are kept in stack.
+It keeps putting expressions to stack till it could evaluate to a value.
 Now, you can it throws _StackOverflowError_ for larger input.
 
 {% img http://i45.tinypic.com/2mw8ry1.png 410px %} 

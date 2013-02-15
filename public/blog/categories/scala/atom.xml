@@ -4,7 +4,7 @@
   <title><![CDATA[Category: scala | siliconsenthil.in]]></title>
   <link href="http://siliconsenthil.herokuapp.com/blog/categories/scala/atom.xml" rel="self"/>
   <link href="http://siliconsenthil.herokuapp.com/"/>
-  <updated>2013-02-15T15:36:13+05:30</updated>
+  <updated>2013-02-15T16:45:30+05:30</updated>
   <id>http://siliconsenthil.herokuapp.com/</id>
   <author>
     <name><![CDATA[Senthil V S]]></name>
@@ -48,7 +48,7 @@ def sum(a: Long, b: Long): Long = if(a &gt; b) 0 else a + sum(a+1, b)
 
 <p><img src="http://i50.tinypic.com/1218htk.png" width="410"></p>
 
-<p>It keeps putting the values to stack till it gets it could evaluate to a value. Till then the expressions are kept in stack.
+<p>It keeps putting expressions to stack till it could evaluate to a value.
 Now, you can it throws <em>StackOverflowError</em> for larger input.</p>
 
 <p><img src="http://i45.tinypic.com/2mw8ry1.png" width="410"></p>
