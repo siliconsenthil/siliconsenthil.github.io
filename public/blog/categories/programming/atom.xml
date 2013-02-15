@@ -4,7 +4,7 @@
   <title><![CDATA[Category: programming | siliconsenthil.in]]></title>
   <link href="http://siliconsenthil.herokuapp.com/blog/categories/programming/atom.xml" rel="self"/>
   <link href="http://siliconsenthil.herokuapp.com/"/>
-  <updated>2013-02-15T16:50:18+05:30</updated>
+  <updated>2013-02-15T22:24:14+05:30</updated>
   <id>http://siliconsenthil.herokuapp.com/</id>
   <author>
     <name><![CDATA[Senthil V S]]></name>
@@ -57,7 +57,7 @@ Now, you can see it throws <em>StackOverflowError</em> for larger input.</p>
 
 <p>If we could write a recursion function that does not force to use stack then we can avoid this error. And that is called as tail recursion. The way to do is that the last line of the recursion function should be just the recursion and not something else to do with the result.</p>
 
-<p>With the help of nested function construct in scala, we could write something like this. Here <code>loop(a,0)</code> is the recusion call. As you can see this is the only expression, it does not require stack to store intermediate result.</p>
+<p>With the help of nested function construct in scala, we could write something like this. Here <code>loop(a+1, acc+a)</code> is the recusion call. As you can see this is the only expression, it does not require stack to store intermediate result.</p>
 
 <p>```scala</p>
 

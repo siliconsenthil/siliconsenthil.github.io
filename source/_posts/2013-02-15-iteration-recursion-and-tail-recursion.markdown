@@ -44,7 +44,7 @@ This is the problem with recursion. This might be one reason programmers tend to
 
 If we could write a recursion function that does not force to use stack then we can avoid this error. And that is called as tail recursion. The way to do is that the last line of the recursion function should be just the recursion and not something else to do with the result.
 
-With the help of nested function construct in scala, we could write something like this. Here <code>loop(a,0)</code> is the recusion call. As you can see this is the only expression, it does not require stack to store intermediate result.
+With the help of nested function construct in scala, we could write something like this. Here <code>loop(a+1, acc+a)</code> is the recusion call. As you can see this is the only expression, it does not require stack to store intermediate result.
 
 ```scala
     def tail_sum(a: Long, b: Long): Long ={
