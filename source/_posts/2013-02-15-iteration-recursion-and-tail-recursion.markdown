@@ -8,6 +8,8 @@ keywords: scala,programming,recursion
 description: "Understanding the differences between Iteraion, Recursion and Tail Recursion using a Scala example."
 ---
 
+Courtesy: [Functional Programming Principles in Scala](https://class.coursera.org/progfun-2012-001/class/index)
+
 **Problem:** Given _a_ and _b_,<br/>find the sum of range of numbers between _a_ and _b_.<br>E.g. Given 1 and 4, the result is 10 (1+2+3+4). Simple.
 
 
