@@ -4,7 +4,7 @@
   <title><![CDATA[siliconsenthil.in]]></title>
   <link href="http://siliconsenthil.herokuapp.com/atom.xml" rel="self"/>
   <link href="http://siliconsenthil.herokuapp.com/"/>
-  <updated>2013-02-16T12:16:32+05:30</updated>
+  <updated>2013-03-26T23:00:49+05:30</updated>
   <id>http://siliconsenthil.herokuapp.com/</id>
   <author>
     <name><![CDATA[Senthil V S]]></name>
@@ -12,6 +12,30 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Integer.parseInt('God') = ???]]></title>
+    <link href="http://siliconsenthil.herokuapp.com/blog/2013/03/26/integer-dot-parseint-god/"/>
+    <updated>2013-03-26T22:47:00+05:30</updated>
+    <id>http://siliconsenthil.herokuapp.com/blog/2013/03/26/integer-dot-parseint-god</id>
+    <content type="html"><![CDATA[<p>Migrated from: <a href="http://monophilo.blogspot.in/2010/03/integerparseintgod.html">My old post</a></p>
+
+<p>Today people visit temple for so many reasons. Fundamentally, those reasons come out of fear or greed depending on the situation. During recession people ask god to save job (out of fear) or otherwise, they ask for promotion or better job (out of greed).</p>
+
+<!--more-->
+
+
+<p>Somewhere in their mind, they understand, they can&#8217;t make all things happen. But, God is someone who can do anything. So, it&#8217;s natural to go to him ask for the they want.</p>
+
+<p>Whenever we get anything from somebody, we wanna pay them back. It happens with God also. There are so many rituals and processes to do that. Some people are just happy with thanking him.</p>
+
+<p>OK. When we look at the nature of these things we do with God, we can understand it&#8217;s sort of business transaction. No business transaction could happen without numbers. While we keep talking about unlimited nature of God,we tend to somehow &#8216;use&#8217; him for limited, physical things. It&#8217;s an attempt to quantify God.</p>
+
+<p>In java, &#8216;Integer.parseInt()&#8217; is a statement used to convert string to number.</p>
+
+<p>Integer.parseInt(&#8220;God&#8221;) is just an expression of our pathetic attempt to quantify God.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Iteration, Recursion and Tail recursion]]></title>
