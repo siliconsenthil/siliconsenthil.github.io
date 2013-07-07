@@ -35,12 +35,18 @@
         <lastmod>2013-03-26T23:00:35+05:30</lastmod>
     </url>
     <url>
+        <loc>
+            http://siliconsenthil.herokuapp.com/blog/2013/07/07/apache-camel-with-scala-testing-styles/
+        </loc>
+        <lastmod>2013-07-07T17:51:52+05:30</lastmod>
+    </url>
+    <url>
         <loc>http://siliconsenthil.herokuapp.com/blog/archives/</loc>
-        <lastmod>2013-03-26T23:00:35+05:30</lastmod>
+        <lastmod>2013-07-07T17:51:52+05:30</lastmod>
     </url>
     <url>
         <loc>http://siliconsenthil.herokuapp.com/</loc>
-        <lastmod>2013-03-26T23:00:35+05:30</lastmod>
+        <lastmod>2013-07-07T17:51:52+05:30</lastmod>
     </url>
     <url>
         <loc>http://siliconsenthil.herokuapp.com/robots.txt</loc>

@@ -4,7 +4,7 @@
   <title><![CDATA[siliconsenthil.in]]></title>
   <link href="http://siliconsenthil.herokuapp.com/atom.xml" rel="self"/>
   <link href="http://siliconsenthil.herokuapp.com/"/>
-  <updated>2013-03-26T23:00:49+05:30</updated>
+  <updated>2013-07-07T17:53:45+05:30</updated>
   <id>http://siliconsenthil.herokuapp.com/</id>
   <author>
     <name><![CDATA[Senthil V S]]></name>
@@ -12,6 +12,122 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Apache Camel with Scala: Testing Styles]]></title>
+    <link href="http://siliconsenthil.herokuapp.com/blog/2013/07/07/apache-camel-with-scala-testing-styles/"/>
+    <updated>2013-07-07T15:39:00+05:30</updated>
+    <id>http://siliconsenthil.herokuapp.com/blog/2013/07/07/apache-camel-with-scala-testing-styles</id>
+    <content type="html"><![CDATA[<p>Scala with Camel is a very powerful combination for integration. Camel has fantastic support for
+<a href="http://camel.apache.org/testing.html" target="_blank">testing</a>. It&#8217;s very easy and useful to test-drive the integration. Following are few styles when it comes to testing camel with scala.</p>
+
+<!-- more -->
+
+
+<h3>Use CamelTestSupport, JUnit style</h3>
+
+<p>CamelTestSupport already has JUnit annotations to run do setup and teardown in JUnit test suite. The simplest way to get started is to use this with ScalaTest. ScalaTest already has JUnitSuite trait to have JUnit style tests. This is documented <a href="http://www.kai-waehner.de/blog/2011/06/23/apache-camel-and-scala-a-powerful-combination/" target="_blank">here</a>(see Testing section).</p>
+
+<h3>Extending CamelTestSupport</h3>
+
+<p>If you dont like the JUnit style and wanna follow any other styles ScalaTest supports, you can create a base test support class that looks like below.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">class</span> <span class="nc">CustomCamelFlatTestSupport</span> <span class="k">extends</span> <span class="nc">CamelTestSupport</span> <span class="k">with</span> <span class="nc">BeforeAndAfterAll</span> <span class="k">with</span> <span class="nc">FlatSpec</span><span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">override</span> <span class="k">def</span> <span class="n">beforeAll</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">setUp</span><span class="o">()</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">override</span> <span class="k">def</span> <span class="n">afterAll</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">tearDown</span><span class="o">()</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We are following <i>FlatSpec</i> style of ScalaTest.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">class</span> <span class="nc">YourRouteSpec</span> <span class="k">extends</span> <span class="nc">CustomCamelFlatTestSupport</span><span class="o">{</span>
+</span><span class='line'>  <span class="k">override</span> <span class="k">def</span> <span class="n">createRouteBuilder</span> <span class="k">=</span> <span class="nc">YourRouteBuilder</span><span class="o">.</span><span class="n">buildRoute</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">before</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">interceptTimer</span><span class="o">()</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">private</span> <span class="k">def</span> <span class="n">interceptTimer</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">context</span><span class="o">.</span><span class="n">getRouteDefinition</span><span class="o">(</span><span class="s">&quot;YourRouteName&quot;</span><span class="o">).</span><span class="n">adviceWith</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="k">new</span> <span class="nc">AdviceWithRouteBuilder</span> <span class="o">{</span>
+</span><span class='line'>      <span class="k">def</span> <span class="n">configure</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">replaceFromWith</span><span class="o">(</span><span class="s">&quot;direct:testEndpoint&quot;</span><span class="o">)</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>    <span class="o">})</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="s">&quot;Your Route&quot;</span> <span class="n">should</span> <span class="s">&quot;do something useful&quot;</span> <span class="n">in</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">template</span><span class="o">.</span><span class="n">sendBody</span><span class="o">(</span><span class="s">&quot;direct:testEndpoint&quot;</span><span class="o">,</span> <span class="s">&quot;Some body&quot;</span><span class="o">)</span>
+</span><span class='line'>    <span class="c1">//Assert some behaviour</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We override the <code>createRouteBuilder</code> with the route we wanna test. There might be needs to intercept routes for testing purpose.</p>
+
+<p>But, if wanna have different routes or different interceptors in every test, this style would not suite.</p>
+
+<h3>CamelTestHelper trait</h3>
+
+<p>With this style you can pass differnt builders and different interceptors and the test code is a block that get the test support.</p>
+
+<p>Create a trait like below</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">trait</span> <span class="nc">CamelTestHelper</span><span class="o">{</span>
+</span><span class='line'>  <span class="k">def</span> <span class="n">withCamelTestSupport</span><span class="o">(</span><span class="n">routeBuilder</span><span class="k">:</span> <span class="kt">RouteBuilder</span><span class="o">,</span> <span class="n">interceptor</span><span class="k">:</span><span class="o">(</span><span class="kt">ModelCamelContext</span> <span class="o">=&gt;</span> <span class="kt">Unit</span><span class="o">)</span> <span class="k">=</span> <span class="n">identity</span><span class="o">(</span><span class="k">_</span><span class="o">))(</span><span class="n">testWithCamelSupport</span><span class="k">:</span> <span class="kt">CamelTestSupport</span> <span class="o">=&gt;</span> <span class="nc">Any</span><span class="o">){</span>
+</span><span class='line'>    <span class="k">new</span> <span class="nc">CamelTestSupport</span><span class="o">{</span>
+</span><span class='line'>      <span class="k">override</span> <span class="k">def</span> <span class="n">createRegistry</span> <span class="k">=</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">val</span> <span class="n">registry</span> <span class="k">=</span> <span class="k">super</span><span class="o">.</span><span class="n">createRegistry</span>
+</span><span class='line'>        <span class="c1">//Put entries to registry if needed.</span>
+</span><span class='line'>        <span class="n">registry</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>      <span class="k">override</span> <span class="k">def</span> <span class="n">createRouteBuilder</span><span class="o">()</span> <span class="k">=</span> <span class="n">routeBuilder</span>
+</span><span class='line'>      <span class="n">setUp</span><span class="o">()</span>
+</span><span class='line'>      <span class="n">interceptor</span><span class="o">(</span><span class="n">context</span><span class="o">)</span>
+</span><span class='line'>      <span class="n">testWithCamelSupport</span><span class="o">(</span><span class="k">this</span><span class="o">)</span>
+</span><span class='line'>      <span class="n">tearDown</span><span class="o">()</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>A typical way to use the trait in test would be,</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class='scala'><span class='line'>  <span class="s">&quot;Your Route&quot;</span> <span class="n">should</span> <span class="s">&quot;do something useful&quot;</span> <span class="n">in</span> <span class="o">{</span>
+</span><span class='line'>    <span class="k">val</span> <span class="n">directEndpoint</span> <span class="k">=</span> <span class="s">&quot;direct:testEndpoint&quot;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">val</span> <span class="n">testRouteBuilder</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">RouteBuilder</span> <span class="o">{</span>
+</span><span class='line'>      <span class="n">from</span><span class="o">(</span><span class="s">&quot;timer:doesNotMatter&quot;</span><span class="o">).</span><span class="n">routeId</span><span class="o">(</span><span class="s">&quot;OurRoute&quot;</span><span class="o">).</span><span class="n">to</span><span class="o">(</span><span class="s">&quot;file:/some/path&quot;</span><span class="o">))</span>
+</span><span class='line'>    <span class="o">}.</span><span class="n">builder</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">def</span> <span class="n">interceptor</span><span class="o">(</span><span class="n">context</span><span class="k">:</span> <span class="kt">ModelCamelContext</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>      <span class="n">context</span><span class="o">.</span><span class="n">getRouteDefinition</span><span class="o">(</span><span class="s">&quot;OurRoute&quot;</span><span class="o">).</span><span class="n">adviceWith</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="k">new</span> <span class="nc">AdviceWithRouteBuilder</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">def</span> <span class="n">configure</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>          <span class="n">replaceFromWith</span><span class="o">(</span><span class="n">directEndpoint</span><span class="o">)</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>      <span class="o">})</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">withCamelTestSupport</span><span class="o">(</span><span class="n">testRouteBuilder</span><span class="o">,</span> <span class="n">interceptor</span><span class="o">){</span> <span class="n">testSupport</span> <span class="k">=&gt;</span>
+</span><span class='line'>        <span class="n">testSupport</span><span class="o">.</span><span class="n">template</span><span class="o">.</span><span class="n">sendBody</span><span class="o">(</span><span class="n">directEndpoint</span><span class="o">,</span> <span class="s">&quot;Some content&quot;</span><span class="o">)</span>
+</span><span class='line'>        <span class="c1">//Assert files exists @ /some/path</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>  <span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>With this style we get full flexibility about testing routes.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Integer.parseInt('God') = ???]]></title>

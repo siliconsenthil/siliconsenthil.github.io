@@ -1,0 +1,337 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Apache Camel with Scala: Testing Styles - siliconsenthil.in</title>
+  <meta name="author" content="Senthil V S">
+  
+  <meta name="description" content="Testing styles for camel with scala">
+  <meta name="keywords" content="Apache Camel,Scala,CamelTestSupport">
+  
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://siliconsenthil.herokuapp.com/blog/2013/07/07/apache-camel-with-scala-testing-styles/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="siliconsenthil.in" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=Cabin+Condensed:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=Oxygen:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-31700132-2']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">siliconsenthil.in</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<ul class="main-navigation">
+  <li><a href="http://about.me/siliconsenthil" target="_blank">about</a></li>
+  <li><a href="/blog/archives">posts</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Apache Camel With Scala: Testing Styles</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-07T15:39:00+05:30" pubdate data-updated="true">Jul 7<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Scala with Camel is a very powerful combination for integration. Camel has fantastic support for
+<a href="http://camel.apache.org/testing.html" target="_blank">testing</a>. It&#8217;s very easy and useful to test-drive the integration. Following are few styles when it comes to testing camel with scala.</p>
+
+<!-- more -->
+
+
+<h3>Use CamelTestSupport, JUnit style</h3>
+
+<p>CamelTestSupport already has JUnit annotations to run do setup and teardown in JUnit test suite. The simplest way to get started is to use this with ScalaTest. ScalaTest already has JUnitSuite trait to have JUnit style tests. This is documented <a href="http://www.kai-waehner.de/blog/2011/06/23/apache-camel-and-scala-a-powerful-combination/" target="_blank">here</a>(see Testing section).</p>
+
+<h3>Extending CamelTestSupport</h3>
+
+<p>If you dont like the JUnit style and wanna follow any other styles ScalaTest supports, you can create a base test support class that looks like below.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">class</span> <span class="nc">CustomCamelFlatTestSupport</span> <span class="k">extends</span> <span class="nc">CamelTestSupport</span> <span class="k">with</span> <span class="nc">BeforeAndAfterAll</span> <span class="k">with</span> <span class="nc">FlatSpec</span><span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">override</span> <span class="k">def</span> <span class="n">beforeAll</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">setUp</span><span class="o">()</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">override</span> <span class="k">def</span> <span class="n">afterAll</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">tearDown</span><span class="o">()</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We are following <i>FlatSpec</i> style of ScalaTest.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">class</span> <span class="nc">YourRouteSpec</span> <span class="k">extends</span> <span class="nc">CustomCamelFlatTestSupport</span><span class="o">{</span>
+</span><span class='line'>  <span class="k">override</span> <span class="k">def</span> <span class="n">createRouteBuilder</span> <span class="k">=</span> <span class="nc">YourRouteBuilder</span><span class="o">.</span><span class="n">buildRoute</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">before</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">interceptTimer</span><span class="o">()</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">private</span> <span class="k">def</span> <span class="n">interceptTimer</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">context</span><span class="o">.</span><span class="n">getRouteDefinition</span><span class="o">(</span><span class="s">&quot;YourRouteName&quot;</span><span class="o">).</span><span class="n">adviceWith</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="k">new</span> <span class="nc">AdviceWithRouteBuilder</span> <span class="o">{</span>
+</span><span class='line'>      <span class="k">def</span> <span class="n">configure</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">replaceFromWith</span><span class="o">(</span><span class="s">&quot;direct:testEndpoint&quot;</span><span class="o">)</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>    <span class="o">})</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="s">&quot;Your Route&quot;</span> <span class="n">should</span> <span class="s">&quot;do something useful&quot;</span> <span class="n">in</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">template</span><span class="o">.</span><span class="n">sendBody</span><span class="o">(</span><span class="s">&quot;direct:testEndpoint&quot;</span><span class="o">,</span> <span class="s">&quot;Some body&quot;</span><span class="o">)</span>
+</span><span class='line'>    <span class="c1">//Assert some behaviour</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We override the <code>createRouteBuilder</code> with the route we wanna test. There might be needs to intercept routes for testing purpose.</p>
+
+<p>But, if wanna have different routes or different interceptors in every test, this style would not suite.</p>
+
+<h3>CamelTestHelper trait</h3>
+
+<p>With this style you can pass differnt builders and different interceptors and the test code is a block that get the test support.</p>
+
+<p>Create a trait like below</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">trait</span> <span class="nc">CamelTestHelper</span><span class="o">{</span>
+</span><span class='line'>  <span class="k">def</span> <span class="n">withCamelTestSupport</span><span class="o">(</span><span class="n">routeBuilder</span><span class="k">:</span> <span class="kt">RouteBuilder</span><span class="o">,</span> <span class="n">interceptor</span><span class="k">:</span><span class="o">(</span><span class="kt">ModelCamelContext</span> <span class="o">=&gt;</span> <span class="kt">Unit</span><span class="o">)</span> <span class="k">=</span> <span class="n">identity</span><span class="o">(</span><span class="k">_</span><span class="o">))(</span><span class="n">testWithCamelSupport</span><span class="k">:</span> <span class="kt">CamelTestSupport</span> <span class="o">=&gt;</span> <span class="nc">Any</span><span class="o">){</span>
+</span><span class='line'>    <span class="k">new</span> <span class="nc">CamelTestSupport</span><span class="o">{</span>
+</span><span class='line'>      <span class="k">override</span> <span class="k">def</span> <span class="n">createRegistry</span> <span class="k">=</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">val</span> <span class="n">registry</span> <span class="k">=</span> <span class="k">super</span><span class="o">.</span><span class="n">createRegistry</span>
+</span><span class='line'>        <span class="c1">//Put entries to registry if needed.</span>
+</span><span class='line'>        <span class="n">registry</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>      <span class="k">override</span> <span class="k">def</span> <span class="n">createRouteBuilder</span><span class="o">()</span> <span class="k">=</span> <span class="n">routeBuilder</span>
+</span><span class='line'>      <span class="n">setUp</span><span class="o">()</span>
+</span><span class='line'>      <span class="n">interceptor</span><span class="o">(</span><span class="n">context</span><span class="o">)</span>
+</span><span class='line'>      <span class="n">testWithCamelSupport</span><span class="o">(</span><span class="k">this</span><span class="o">)</span>
+</span><span class='line'>      <span class="n">tearDown</span><span class="o">()</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>A typical way to use the trait in test would be,</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class='scala'><span class='line'>  <span class="s">&quot;Your Route&quot;</span> <span class="n">should</span> <span class="s">&quot;do something useful&quot;</span> <span class="n">in</span> <span class="o">{</span>
+</span><span class='line'>    <span class="k">val</span> <span class="n">directEndpoint</span> <span class="k">=</span> <span class="s">&quot;direct:testEndpoint&quot;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">val</span> <span class="n">testRouteBuilder</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">RouteBuilder</span> <span class="o">{</span>
+</span><span class='line'>      <span class="n">from</span><span class="o">(</span><span class="s">&quot;timer:doesNotMatter&quot;</span><span class="o">).</span><span class="n">routeId</span><span class="o">(</span><span class="s">&quot;OurRoute&quot;</span><span class="o">).</span><span class="n">to</span><span class="o">(</span><span class="s">&quot;file:/some/path&quot;</span><span class="o">))</span>
+</span><span class='line'>    <span class="o">}.</span><span class="n">builder</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">def</span> <span class="n">interceptor</span><span class="o">(</span><span class="n">context</span><span class="k">:</span> <span class="kt">ModelCamelContext</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>      <span class="n">context</span><span class="o">.</span><span class="n">getRouteDefinition</span><span class="o">(</span><span class="s">&quot;OurRoute&quot;</span><span class="o">).</span><span class="n">adviceWith</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="k">new</span> <span class="nc">AdviceWithRouteBuilder</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">def</span> <span class="n">configure</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>          <span class="n">replaceFromWith</span><span class="o">(</span><span class="n">directEndpoint</span><span class="o">)</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>      <span class="o">})</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">withCamelTestSupport</span><span class="o">(</span><span class="n">testRouteBuilder</span><span class="o">,</span> <span class="n">interceptor</span><span class="o">){</span> <span class="n">testSupport</span> <span class="k">=&gt;</span>
+</span><span class='line'>        <span class="n">testSupport</span><span class="o">.</span><span class="n">template</span><span class="o">.</span><span class="n">sendBody</span><span class="o">(</span><span class="n">directEndpoint</span><span class="o">,</span> <span class="s">&quot;Some content&quot;</span><span class="o">)</span>
+</span><span class='line'>        <span class="c1">//Assert files exists @ /some/path</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>  <span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>With this style we get full flexibility about testing routes.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Senthil V S</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-07T15:39:00+05:30" pubdate data-updated="true">Jul 7<span>th</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/apache-camel/'>Apache Camel</a>, <a class='category' href='/blog/categories/scala/'>scala</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://siliconsenthil.herokuapp.com/blog/2013/07/07/apache-camel-with-scala-testing-styles/" data-via="siliconsenthil" data-counturl="http://siliconsenthil.herokuapp.com/blog/2013/07/07/apache-camel-with-scala-testing-styles/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/03/26/integer-dot-parseint-god/" title="Previous Post: Integer.parseInt('God') = ???">&laquo; Integer.parseInt('God') = ???</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Senthil V S -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'siliconsenthil';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://siliconsenthil.herokuapp.com/blog/2013/07/07/apache-camel-with-scala-testing-styles/';
+        var disqus_url = 'http://siliconsenthil.herokuapp.com/blog/2013/07/07/apache-camel-with-scala-testing-styles/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
