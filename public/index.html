@@ -71,6 +71,65 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2013/07/11/apache-camel-with-scala-extending-dsl/">Apache Camel With Scala: Extending DSL</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-11T07:58:00+05:30" pubdate data-updated="true">Jul 11<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Let&#8217;s take a very simple use case of integrating with a http endpoint which uses basic auth.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class='scala'><span class='line'>    <span class="n">from</span><span class="o">(</span><span class="s">&quot;someWhere&quot;</span><span class="o">)</span>
+</span><span class='line'>      <span class="c1">//Do some processing</span>
+</span><span class='line'>      <span class="o">.</span><span class="n">setHeader</span><span class="o">(</span><span class="s">&quot;Authorization&quot;</span><span class="o">,</span> <span class="k">_</span> <span class="k">=&gt;</span> <span class="s">&quot;OAuth anObfuscatedTokenString&quot;</span><span class="o">)</span>
+</span><span class='line'>      <span class="o">.</span><span class="n">setHeader</span><span class="o">(</span><span class="nc">Exchange</span><span class="o">.</span><span class="nc">HTTP_METHOD</span><span class="o">,</span> <span class="s">&quot;GET&quot;</span><span class="o">)</span>
+</span><span class='line'>      <span class="o">.</span><span class="n">to</span><span class="o">(</span><span class="s">&quot;http://someServer.com&quot;</span><span class="o">)</span>
+</span><span class='line'>      <span class="o">.</span><span class="n">process</span><span class="o">(</span><span class="c1">//Do something with response)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">from</span><span class="o">(</span><span class="s">&quot;someWhereElse&quot;</span><span class="o">)</span>
+</span><span class='line'>      <span class="c1">//Do some processing</span>
+</span><span class='line'>      <span class="o">.</span><span class="n">setHeader</span><span class="o">(</span><span class="s">&quot;Authorization&quot;</span><span class="o">,</span> <span class="k">_</span> <span class="k">=&gt;</span> <span class="s">&quot;OAuth anObfuscatedTokenString&quot;</span><span class="o">)</span>
+</span><span class='line'>      <span class="o">.</span><span class="n">setHeader</span><span class="o">(</span><span class="nc">Exchange</span><span class="o">.</span><span class="nc">HTTP_METHOD</span><span class="o">,</span> <span class="s">&quot;POST&quot;</span><span class="o">)</span>
+</span><span class='line'>      <span class="o">.</span><span class="n">to</span><span class="o">(</span><span class="s">&quot;http://someServer.com&quot;</span><span class="o">)</span>
+</span><span class='line'>      <span class="o">.</span><span class="n">process</span><span class="o">(</span><span class="c1">//Do something with response)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You can clearly see if have many routes like this, there will be a lot of duplication.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/07/11/apache-camel-with-scala-extending-dsl/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2013/07/07/apache-camel-with-scala-testing-styles/">Apache Camel With Scala: Testing Styles</a></h1>
     
     

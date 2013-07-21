@@ -4,7 +4,7 @@
   <title><![CDATA[Category: scala | siliconsenthil.in]]></title>
   <link href="http://siliconsenthil.herokuapp.com/blog/categories/scala/atom.xml" rel="self"/>
   <link href="http://siliconsenthil.herokuapp.com/"/>
-  <updated>2013-07-07T17:53:45+05:30</updated>
+  <updated>2013-07-21T21:58:19+05:30</updated>
   <id>http://siliconsenthil.herokuapp.com/</id>
   <author>
     <name><![CDATA[Senthil V S]]></name>
@@ -12,6 +12,85 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Apache Camel with Scala: Extending DSL]]></title>
+    <link href="http://siliconsenthil.herokuapp.com/blog/2013/07/11/apache-camel-with-scala-extending-dsl/"/>
+    <updated>2013-07-11T07:58:00+05:30</updated>
+    <id>http://siliconsenthil.herokuapp.com/blog/2013/07/11/apache-camel-with-scala-extending-dsl</id>
+    <content type="html"><![CDATA[<p>Let's take a very simple use case of integrating with a http endpoint which uses basic auth.</p>
+
+<p>``` scala</p>
+
+<pre><code>from("someWhere")
+  //Do some processing
+  .setHeader("Authorization", _ =&gt; "OAuth anObfuscatedTokenString")
+  .setHeader(Exchange.HTTP_METHOD, "GET")
+  .to("http://someServer.com")
+  .process(//Do something with response)
+
+from("someWhereElse")
+  //Do some processing
+  .setHeader("Authorization", _ =&gt; "OAuth anObfuscatedTokenString")
+  .setHeader(Exchange.HTTP_METHOD, "POST")
+  .to("http://someServer.com")
+  .process(//Do something with response)
+</code></pre>
+
+<p>```</p>
+
+<p>You can clearly see if have many routes like this, there will be a lot of duplication.</p>
+
+<!-- more -->
+
+
+<p>So we wanted to extend the DSL so that these kind of duplications are avoided and we could come up with more readable routes.</p>
+
+<p>We created an implicit class and add  method like <code>toSomeServer</code> which abstrats the details.</p>
+
+<p>``` scala
+object DSLImplicits {
+  implicit class RichDSL(val dsl: DSL) {</p>
+
+<pre><code>def toSomeServer = {
+  dsl.setHeader("Authorization", _ =&gt; "OAuth anObfuscatedTokenString")
+    .to("http://someServer.com")
+}
+
+def get = dsl.setHeader(Exchange.HTTP_METHOD, _ =&gt; HttpMethods.GET.name)
+
+def post = dsl.setHeader(Exchange.HTTP_METHOD, _ =&gt; HttpMethods.POST.name)
+</code></pre>
+
+<p>  }
+}</p>
+
+<p>```</p>
+
+<p>The above extention can be used like this.</p>
+
+<p>``` scala</p>
+
+<pre><code>import DSLImplicits.RichDSL
+//----------------------------
+from("someWhere")
+  //Do some processing
+  .get.toSomeServer
+  .process(//Do something with response)
+
+from("someWhereElse")
+  //Do some processing
+  .post.toSomeServer
+  .process(//Do something with response)
+</code></pre>
+
+<p>```</p>
+
+<p>You can clearly see this ends with more readable route.</p>
+
+<p>This is is <a href="http://i000174.blogspot.in/2011/02/is-it-possible-to-extend-apache-camel_28.html">not possible</a> with java dsl. As given <a href="http://stackoverflow.com/questions/8010084/camel-extend-java-dsl">here</a> extending can be possible with Groovy based DSL too.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Apache Camel with Scala: Testing Styles]]></title>

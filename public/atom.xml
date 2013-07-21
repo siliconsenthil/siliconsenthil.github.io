@@ -4,7 +4,7 @@
   <title><![CDATA[siliconsenthil.in]]></title>
   <link href="http://siliconsenthil.herokuapp.com/atom.xml" rel="self"/>
   <link href="http://siliconsenthil.herokuapp.com/"/>
-  <updated>2013-07-07T17:53:45+05:30</updated>
+  <updated>2013-07-21T21:58:19+05:30</updated>
   <id>http://siliconsenthil.herokuapp.com/</id>
   <author>
     <name><![CDATA[Senthil V S]]></name>
@@ -12,6 +12,75 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Apache Camel with Scala: Extending DSL]]></title>
+    <link href="http://siliconsenthil.herokuapp.com/blog/2013/07/11/apache-camel-with-scala-extending-dsl/"/>
+    <updated>2013-07-11T07:58:00+05:30</updated>
+    <id>http://siliconsenthil.herokuapp.com/blog/2013/07/11/apache-camel-with-scala-extending-dsl</id>
+    <content type="html"><![CDATA[<p>Let&#8217;s take a very simple use case of integrating with a http endpoint which uses basic auth.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class='scala'><span class='line'>    <span class="n">from</span><span class="o">(</span><span class="s">&quot;someWhere&quot;</span><span class="o">)</span>
+</span><span class='line'>      <span class="c1">//Do some processing</span>
+</span><span class='line'>      <span class="o">.</span><span class="n">setHeader</span><span class="o">(</span><span class="s">&quot;Authorization&quot;</span><span class="o">,</span> <span class="k">_</span> <span class="k">=&gt;</span> <span class="s">&quot;OAuth anObfuscatedTokenString&quot;</span><span class="o">)</span>
+</span><span class='line'>      <span class="o">.</span><span class="n">setHeader</span><span class="o">(</span><span class="nc">Exchange</span><span class="o">.</span><span class="nc">HTTP_METHOD</span><span class="o">,</span> <span class="s">&quot;GET&quot;</span><span class="o">)</span>
+</span><span class='line'>      <span class="o">.</span><span class="n">to</span><span class="o">(</span><span class="s">&quot;http://someServer.com&quot;</span><span class="o">)</span>
+</span><span class='line'>      <span class="o">.</span><span class="n">process</span><span class="o">(</span><span class="c1">//Do something with response)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">from</span><span class="o">(</span><span class="s">&quot;someWhereElse&quot;</span><span class="o">)</span>
+</span><span class='line'>      <span class="c1">//Do some processing</span>
+</span><span class='line'>      <span class="o">.</span><span class="n">setHeader</span><span class="o">(</span><span class="s">&quot;Authorization&quot;</span><span class="o">,</span> <span class="k">_</span> <span class="k">=&gt;</span> <span class="s">&quot;OAuth anObfuscatedTokenString&quot;</span><span class="o">)</span>
+</span><span class='line'>      <span class="o">.</span><span class="n">setHeader</span><span class="o">(</span><span class="nc">Exchange</span><span class="o">.</span><span class="nc">HTTP_METHOD</span><span class="o">,</span> <span class="s">&quot;POST&quot;</span><span class="o">)</span>
+</span><span class='line'>      <span class="o">.</span><span class="n">to</span><span class="o">(</span><span class="s">&quot;http://someServer.com&quot;</span><span class="o">)</span>
+</span><span class='line'>      <span class="o">.</span><span class="n">process</span><span class="o">(</span><span class="c1">//Do something with response)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You can clearly see if have many routes like this, there will be a lot of duplication.</p>
+
+<!-- more -->
+
+
+<p>So we wanted to extend the DSL so that these kind of duplications are avoided and we could come up with more readable routes.</p>
+
+<p>We created an implicit class and add  method like <code>toSomeServer</code> which abstrats the details.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">object</span> <span class="nc">DSLImplicits</span> <span class="o">{</span>
+</span><span class='line'>  <span class="k">implicit</span> <span class="k">class</span> <span class="nc">RichDSL</span><span class="o">(</span><span class="k">val</span> <span class="n">dsl</span><span class="k">:</span> <span class="kt">DSL</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>    <span class="k">def</span> <span class="n">toSomeServer</span> <span class="k">=</span> <span class="o">{</span>
+</span><span class='line'>      <span class="n">dsl</span><span class="o">.</span><span class="n">setHeader</span><span class="o">(</span><span class="s">&quot;Authorization&quot;</span><span class="o">,</span> <span class="k">_</span> <span class="k">=&gt;</span> <span class="s">&quot;OAuth anObfuscatedTokenString&quot;</span><span class="o">)</span>
+</span><span class='line'>          <span class="o">.</span><span class="n">to</span><span class="o">(</span><span class="s">&quot;http://someServer.com&quot;</span><span class="o">)</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">def</span> <span class="n">get</span> <span class="k">=</span> <span class="n">dsl</span><span class="o">.</span><span class="n">setHeader</span><span class="o">(</span><span class="nc">Exchange</span><span class="o">.</span><span class="nc">HTTP_METHOD</span><span class="o">,</span> <span class="k">_</span> <span class="k">=&gt;</span> <span class="nc">HttpMethods</span><span class="o">.</span><span class="nc">GET</span><span class="o">.</span><span class="n">name</span><span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">def</span> <span class="n">post</span> <span class="k">=</span> <span class="n">dsl</span><span class="o">.</span><span class="n">setHeader</span><span class="o">(</span><span class="nc">Exchange</span><span class="o">.</span><span class="nc">HTTP_METHOD</span><span class="o">,</span> <span class="k">_</span> <span class="k">=&gt;</span> <span class="nc">HttpMethods</span><span class="o">.</span><span class="nc">POST</span><span class="o">.</span><span class="n">name</span><span class="o">)</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The above extention can be used like this.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">import</span> <span class="nn">DSLImplicits.RichDSL</span>
+</span><span class='line'><span class="c1">//----------------------------</span>
+</span><span class='line'><span class="n">from</span><span class="o">(</span><span class="s">&quot;someWhere&quot;</span><span class="o">)</span>
+</span><span class='line'>  <span class="c1">//Do some processing</span>
+</span><span class='line'>  <span class="o">.</span><span class="n">get</span><span class="o">.</span><span class="n">toSomeServer</span>
+</span><span class='line'>  <span class="o">.</span><span class="n">process</span><span class="o">(</span><span class="c1">//Do something with response)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">from</span><span class="o">(</span><span class="s">&quot;someWhereElse&quot;</span><span class="o">)</span>
+</span><span class='line'>  <span class="c1">//Do some processing</span>
+</span><span class='line'>  <span class="o">.</span><span class="n">post</span><span class="o">.</span><span class="n">toSomeServer</span>
+</span><span class='line'>  <span class="o">.</span><span class="n">process</span><span class="o">(</span><span class="c1">//Do something with response)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You can clearly see this ends with more readable route.</p>
+
+<p>This is is <a href="http://i000174.blogspot.in/2011/02/is-it-possible-to-extend-apache-camel_28.html">not possible</a> with java dsl. As given <a href="http://stackoverflow.com/questions/8010084/camel-extend-java-dsl">here</a> extending can be possible with Groovy based DSL too.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Apache Camel with Scala: Testing Styles]]></title>
