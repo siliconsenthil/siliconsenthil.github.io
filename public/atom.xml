@@ -4,7 +4,7 @@
   <title><![CDATA[siliconsenthil.in]]></title>
   <link href="http://siliconsenthil.herokuapp.com/atom.xml" rel="self"/>
   <link href="http://siliconsenthil.herokuapp.com/"/>
-  <updated>2013-07-21T21:58:19+05:30</updated>
+  <updated>2013-07-22T21:10:19+05:30</updated>
   <id>http://siliconsenthil.herokuapp.com/</id>
   <author>
     <name><![CDATA[Senthil V S]]></name>
@@ -18,7 +18,7 @@
     <link href="http://siliconsenthil.herokuapp.com/blog/2013/07/11/apache-camel-with-scala-extending-dsl/"/>
     <updated>2013-07-11T07:58:00+05:30</updated>
     <id>http://siliconsenthil.herokuapp.com/blog/2013/07/11/apache-camel-with-scala-extending-dsl</id>
-    <content type="html"><![CDATA[<p>Let&#8217;s take a very simple use case of integrating with a http endpoint which uses basic auth.</p>
+    <content type="html"><![CDATA[<p>Let&#8217;s take a very simple use case of integrating with a http endpoint which has an authentication mechanism.</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class='scala'><span class='line'>    <span class="n">from</span><span class="o">(</span><span class="s">&quot;someWhere&quot;</span><span class="o">)</span>
 </span><span class='line'>      <span class="c1">//Do some processing</span>

@@ -9,7 +9,7 @@ description: "How to extend camel scala dsl to support custom methods."
 ---
 
 
-Let's take a very simple use case of integrating with a http endpoint which uses basic auth. 
+Let's take a very simple use case of integrating with a http endpoint which has an authentication mechanism. 
 
 ``` scala
 
