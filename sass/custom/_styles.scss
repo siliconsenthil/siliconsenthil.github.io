@@ -1,9 +1,0 @@
-// This File is imported last, and will override other styles in the cascade
-// Add styles here to make changes without digging in too much
-html, div#content, footer {background: white;}
-div#content {border:0;}
-p.meta {display: none}
-body {width: 60%; text-align: justify}
-body > header {padding-bottom: 0;}
-header {text-align: center}
-#content .blog-index article {padding-top: 0;}
