@@ -1,121 +1,90 @@
+#--
+###############################################################################
+#                                                                             #
+# jekyll-pagination -- Jekyll plugin to extend the pagination generator       #
+#                                                                             #
+# Copyright (C) 2010-2012 University of Cologne,                              #
+#                         Albertus-Magnus-Platz,                              #
+#                         50923 Cologne, Germany                              #
+#                                                                             #
+# Copyright (C) 2013 Jens Wille                                               #
+#                                                                             #
+# Authors:                                                                    #
+#     Jens Wille <jens.wille@gmail.com>                                       #
+#                                                                             #
+# jekyll-pagination is free software; you can redistribute it and/or modify   #
+# it under the terms of the GNU Affero General Public License as published by #
+# the Free Software Foundation; either version 3 of the License, or (at your  #
+# option) any later version.                                                  #
+#                                                                             #
+# jekyll-pagination is distributed in the hope that it will be useful, but    #
+# WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY  #
+# or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public      #
+# License for more details.                                                   #
+#                                                                             #
+# You should have received a copy of the GNU Affero General Public License    #
+# along with jekyll-pagination. If not, see <http://www.gnu.org/licenses/>.   #
+#                                                                             #
+###############################################################################
+#++
+
 module Jekyll
 
-  class Pagination < Generator
-    # This generator is safe from arbitrary code execution.
-    safe true
+  class Page
 
-    # Generate paginated pages if necessary.
-    #
-    # site - The Site.
-    #
-    # Returns nothing.
-    def generate(site)
-      site.pages.dup.each do |page|
-        paginate(site, page) if Pager.pagination_enabled?(site.config, page)
-      end
+    alias_method :_pagination_original_dir=, :dir=
+
+    # Overwrites the original method to also set +basename+ when there's
+    # a +pager+. NOTE: Depends on +pager+ being set before setting +dir+.
+    def dir=(dir)
+      @basename = 'index' if @pager
+      @dir = dir
     end
 
-    # Paginates the blog's posts. Renders the index.html file into paginated
-    # directories, e.g.: page2/index.html, page3/index.html, etc and adds more
-    # site-wide data.
-    #
-    # site - The Site.
-    # page - The index.html Page that requires pagination.
-    #
-    # {"paginator" => { "page" => <Number>,
-    #                   "per_page" => <Number>,
-    #                   "posts" => [<Post>],
-    #                   "total_posts" => <Number>,
-    #                   "total_pages" => <Number>,
-    #                   "previous_page" => <Number>,
-    #                   "next_page" => <Number> }}
-    def paginate(site, page)
-      all_posts = site.site_payload['site']['posts']
-      pages = Pager.calculate_pages(all_posts, site.config['paginate'].to_i)
-      page_dir = page.destination('').sub(/\/[^\/]+$/, '')
-      page_dir_config = site.config['pagination_dir']
-      dir = ((page_dir_config || page_dir) + '/').sub(/^\/+/, '')
+    alias_method :_pagination_original_index?, :index?
 
-      (1..pages).each do |num_page|
-        pager = Pager.new(site.config, num_page, all_posts, page_dir+'/', '/'+dir, pages)
-        if num_page > 1
-          newpage = Page.new(site, site.source, page_dir, page.name)
-          newpage.pager = pager
-          newpage.dir = File.join(page.dir, "#{dir}page/#{num_page}")
-          site.pages << newpage
-        else
-          page.pager = pager
-        end
-      end
+    # Overwrites the original method to also include the configured
+    # paginate file(s) in the evaluation.
+    def index?
+      Pager.paginate_files(@site.config).include?("#{basename}.html")
     end
+
   end
 
   class Pager
-    attr_reader :page, :per_page, :posts, :total_posts, :total_pages, :previous_page, :next_page
 
-    # Calculate the number of pages.
-    #
-    # all_posts - The Array of all Posts.
-    # per_page  - The Integer of entries per page.
-    #
-    # Returns the Integer number of pages.
-    def self.calculate_pages(all_posts, per_page)
-      (all_posts.size.to_f / per_page.to_i).ceil
-    end
+    class << self
 
-    # Determine if pagination is enabled for a given file.
-    #
-    # config - The configuration Hash.
-    # file   - The String filename of the file.
-    #
-    # Returns true if pagination is enabled, false otherwise.
-    def self.pagination_enabled?(config, file)
-      file.name == 'index.html' && !config['paginate'].nil? && file.content =~ /paginator\./
-    end
-
-    # Initialize a new Pager.
-    #
-    # config    - The Hash configuration of the site.
-    # page      - The Integer page number.
-    # all_posts - The Array of all the site's Posts.
-    # num_pages - The Integer number of pages or nil if you'd like the number
-    #             of pages calculated.
-    def initialize(config, page, all_posts, index_dir, pagination_dir, num_pages = nil)
-      @page = page
-      @per_page = config['paginate'].to_i
-      @page_dir = pagination_dir + 'page/'
-      @total_pages = num_pages || Pager.calculate_pages(all_posts, @per_page)
-      @previous_page = nil
-
-      if @page > @total_pages
-        raise RuntimeError, "page number can't be greater than total pages: #{@page} > #{@total_pages}"
+      def paginate_files(config)
+        config['paginate_files'] ||= ['index.html']
+        config.pluralized_array('paginate_file', 'paginate_files')
       end
 
-      init = (@page - 1) * @per_page
-      offset = (init + @per_page - 1) >= all_posts.size ? all_posts.size : (init + @per_page - 1)
+      alias_method :_pagination_original_pagination_enabled?, :pagination_enabled?
 
-      @total_posts = all_posts.size
-      @posts = all_posts[init..offset]
-      @previous_page = @page != 1 ? @page_dir + (@page - 1).to_s + '/' : nil
-      @previous_page = index_dir if @page - 1 == 1
-      @next_page = @page != @total_pages ? @page_dir + (@page + 1).to_s + '/' : nil
+      # Overwrites the original method to check +paginate_file+ and
+      # +paginate_files+ configuration options.
+      def pagination_enabled?(config_or_site, file_or_page = nil)
+        if file_or_page  # < 1.1
+          config = config_or_site
+
+          if config['paginate']
+            file = unless file_or_page.is_a?(String)  # >= 1.0
+              file_or_page.name
+            else  # < 1.0
+              file_or_page
+            end
+
+            paginate_files(config).include?(file)
+          end
+        else  # >= 1.1
+          site = config_or_site
+          _pagination_original_pagination_enabled?(site)
+        end
+      end
+
     end
 
-    # Convert this Pager's data to a Hash suitable for use by Liquid.
-    #
-    # Returns the Hash representation of this Pager.
-    def to_liquid
-      {
-        'page' => page,
-        'per_page' => per_page,
-        'posts' => posts,
-        'total_posts' => total_posts,
-        'total_pages' => total_pages,
-        'previous_page' => previous_page,
-        'next_page' => next_page
-      }
-    end
   end
 
 end
-
