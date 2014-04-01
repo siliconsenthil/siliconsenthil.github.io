@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Apache Camel | siliconsenthil.in]]></title>
-  <link href="http://siliconsenthil.herokuapp.com/blog/categories/apache-camel/atom.xml" rel="self"/>
-  <link href="http://siliconsenthil.herokuapp.com/"/>
-  <updated>2014-04-01T12:21:17+05:30</updated>
-  <id>http://siliconsenthil.herokuapp.com/</id>
+  <link href="http://siliconsenthil.in/blog/categories/apache-camel/atom.xml" rel="self"/>
+  <link href="http://siliconsenthil.in/"/>
+  <updated>2014-04-01T12:25:52+05:30</updated>
+  <id>http://siliconsenthil.in/</id>
   <author>
     <name><![CDATA[Senthil V S]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Apache Camel with Scala: Extending DSL]]></title>
-    <link href="http://siliconsenthil.herokuapp.com/blog/2013/07/11/apache-camel-with-scala-extending-dsl/"/>
+    <link href="http://siliconsenthil.in/blog/2013/07/11/apache-camel-with-scala-extending-dsl/"/>
     <updated>2013-07-11T07:58:00+05:30</updated>
-    <id>http://siliconsenthil.herokuapp.com/blog/2013/07/11/apache-camel-with-scala-extending-dsl</id>
+    <id>http://siliconsenthil.in/blog/2013/07/11/apache-camel-with-scala-extending-dsl</id>
     <content type="html"><![CDATA[<p>Let's take a very simple use case of integrating with a http endpoint which has an authentication mechanism.</p>
 
 <p>``` scala</p>
@@ -94,9 +94,9 @@ from("someWhereElse")
   
   <entry>
     <title type="html"><![CDATA[Apache Camel with Scala: Testing Styles]]></title>
-    <link href="http://siliconsenthil.herokuapp.com/blog/2013/07/07/apache-camel-with-scala-testing-styles/"/>
+    <link href="http://siliconsenthil.in/blog/2013/07/07/apache-camel-with-scala-testing-styles/"/>
     <updated>2013-07-07T15:39:00+05:30</updated>
-    <id>http://siliconsenthil.herokuapp.com/blog/2013/07/07/apache-camel-with-scala-testing-styles</id>
+    <id>http://siliconsenthil.in/blog/2013/07/07/apache-camel-with-scala-testing-styles</id>
     <content type="html"><![CDATA[<p>Scala with Camel is a very powerful combination for integration. Camel has fantastic support for
 <a href="http://camel.apache.org/testing.html" target="_blank">testing</a>. It's very easy and useful to test-drive the integration. Following are few styles when it comes to testing camel with scala.</p>
 

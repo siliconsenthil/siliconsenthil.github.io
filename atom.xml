@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[siliconsenthil.in]]></title>
-  <link href="http://siliconsenthil.herokuapp.com/atom.xml" rel="self"/>
-  <link href="http://siliconsenthil.herokuapp.com/"/>
-  <updated>2014-04-01T12:21:17+05:30</updated>
-  <id>http://siliconsenthil.herokuapp.com/</id>
+  <link href="http://siliconsenthil.in/atom.xml" rel="self"/>
+  <link href="http://siliconsenthil.in/"/>
+  <updated>2014-04-01T12:25:52+05:30</updated>
+  <id>http://siliconsenthil.in/</id>
   <author>
     <name><![CDATA[Senthil V S]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Apache Camel with Scala: Extending DSL]]></title>
-    <link href="http://siliconsenthil.herokuapp.com/blog/2013/07/11/apache-camel-with-scala-extending-dsl/"/>
+    <link href="http://siliconsenthil.in/blog/2013/07/11/apache-camel-with-scala-extending-dsl/"/>
     <updated>2013-07-11T07:58:00+05:30</updated>
-    <id>http://siliconsenthil.herokuapp.com/blog/2013/07/11/apache-camel-with-scala-extending-dsl</id>
+    <id>http://siliconsenthil.in/blog/2013/07/11/apache-camel-with-scala-extending-dsl</id>
     <content type="html"><![CDATA[<p>Let&#8217;s take a very simple use case of integrating with a http endpoint which has an authentication mechanism.</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class='scala'><span class='line'>    <span class="n">from</span><span class="o">(</span><span class="s">&quot;someWhere&quot;</span><span class="o">)</span>
@@ -84,9 +84,9 @@
   
   <entry>
     <title type="html"><![CDATA[Apache Camel with Scala: Testing Styles]]></title>
-    <link href="http://siliconsenthil.herokuapp.com/blog/2013/07/07/apache-camel-with-scala-testing-styles/"/>
+    <link href="http://siliconsenthil.in/blog/2013/07/07/apache-camel-with-scala-testing-styles/"/>
     <updated>2013-07-07T15:39:00+05:30</updated>
-    <id>http://siliconsenthil.herokuapp.com/blog/2013/07/07/apache-camel-with-scala-testing-styles</id>
+    <id>http://siliconsenthil.in/blog/2013/07/07/apache-camel-with-scala-testing-styles</id>
     <content type="html"><![CDATA[<p>Scala with Camel is a very powerful combination for integration. Camel has fantastic support for
 <a href="http://camel.apache.org/testing.html" target="_blank">testing</a>. It&#8217;s very easy and useful to test-drive the integration. Following are few styles when it comes to testing camel with scala.</p>
 
@@ -200,9 +200,9 @@
   
   <entry>
     <title type="html"><![CDATA[Integer.parseInt('God') = ???]]></title>
-    <link href="http://siliconsenthil.herokuapp.com/blog/2013/03/26/integer-dot-parseint-god/"/>
+    <link href="http://siliconsenthil.in/blog/2013/03/26/integer-dot-parseint-god/"/>
     <updated>2013-03-26T22:47:00+05:30</updated>
-    <id>http://siliconsenthil.herokuapp.com/blog/2013/03/26/integer-dot-parseint-god</id>
+    <id>http://siliconsenthil.in/blog/2013/03/26/integer-dot-parseint-god</id>
     <content type="html"><![CDATA[<p>Migrated from: <a href="http://monophilo.blogspot.in/2010/03/integerparseintgod.html">My old post</a></p>
 
 <p>Today people visit temple for so many reasons. Fundamentally, those reasons come out of fear or greed depending on the situation. During recession people ask god to save job (out of fear) or otherwise, they ask for promotion or better job (out of greed).</p>
@@ -224,9 +224,9 @@
   
   <entry>
     <title type="html"><![CDATA[Iteration, Recursion and Tail recursion]]></title>
-    <link href="http://siliconsenthil.herokuapp.com/blog/2013/02/15/iteration-recursion-and-tail-recursion/"/>
+    <link href="http://siliconsenthil.in/blog/2013/02/15/iteration-recursion-and-tail-recursion/"/>
     <updated>2013-02-15T12:38:00+05:30</updated>
-    <id>http://siliconsenthil.herokuapp.com/blog/2013/02/15/iteration-recursion-and-tail-recursion</id>
+    <id>http://siliconsenthil.in/blog/2013/02/15/iteration-recursion-and-tail-recursion</id>
     <content type="html"><![CDATA[<p>Courtesy: <a href="https://class.coursera.org/progfun-2012-001/class/index">Functional Programming Principles in Scala</a></p>
 
 <p><strong>Problem:</strong> Given <em>a</em> and <em>b</em>,<br/>find the sum of range of numbers between <em>a</em> and <em>b</em>.<br>E.g. Given 1 and 4, the result is 10 (1+2+3+4). Simple.</p>
@@ -646,13 +646,13 @@ Please, don&#39;t. https://github.com/styleguide/templates/2.0
   
   <entry>
     <title type="html"><![CDATA[Memory leaks with <i>validation_scopes</i>]]></title>
-    <link href="http://siliconsenthil.herokuapp.com/blog/2013/01/19/validation-scopes-leaks-memory/"/>
+    <link href="http://siliconsenthil.in/blog/2013/01/19/validation-scopes-leaks-memory/"/>
     <updated>2013-01-19T17:50:00+05:30</updated>
-    <id>http://siliconsenthil.herokuapp.com/blog/2013/01/19/validation-scopes-leaks-memory</id>
+    <id>http://siliconsenthil.in/blog/2013/01/19/validation-scopes-leaks-memory</id>
     <content type="html"><![CDATA[<p>We had a requirement in our app to ignore few validations by just showing warnings to user and continuing the object to save.
 The gem <a href="https://github.com/gtd/validation_scopes"><em>validation_scopes</em></a> seemed to be a right choice and we used it.</p>
 
-<p>We faced memory issues and <a href="http://siliconsenthil.herokuapp.com/blog/2013/01/19/how-we-debugged-rails-memory-leak/">figured out</a>
+<p>We faced memory issues and <a href="http://siliconsenthil.in/blog/2013/01/19/how-we-debugged-rails-memory-leak/">figured out</a>
 <code>model.has_warnings?</code> of <em>validation_scopes</em> was causing issue.</p>
 
 <!--more-->
@@ -755,9 +755,9 @@ the memory was kept on increasing for every request.</p>
   
   <entry>
     <title type="html"><![CDATA[How we debugged memory leak in a rails app.]]></title>
-    <link href="http://siliconsenthil.herokuapp.com/blog/2013/01/19/how-we-debugged-rails-memory-leak/"/>
+    <link href="http://siliconsenthil.in/blog/2013/01/19/how-we-debugged-rails-memory-leak/"/>
     <updated>2013-01-19T13:29:00+05:30</updated>
-    <id>http://siliconsenthil.herokuapp.com/blog/2013/01/19/how-we-debugged-rails-memory-leak</id>
+    <id>http://siliconsenthil.in/blog/2013/01/19/how-we-debugged-rails-memory-leak</id>
     <content type="html"><![CDATA[<p>We run our app on heroku and kept on getting <a href="https://devcenter.heroku.com/articles/error-codes#r14-memory-quota-exceeded">R14</a>s. Our google and stackoverflow skills did provide
 few suggestions and but din&#8217;t help much. We used few tools (<a href="https://github.com/brynary/rack-bug">rack_bug</a>, <a href="https://github.com/noahd1/oink">oink</a>) see the memory usage. They provided who use how much <br/>
 but we could make further progress with that. So here&#8217;s what we did to find out.</p>
@@ -811,7 +811,7 @@ the problem is with the specific page and not the framework as such.</li>
 
 <p><span> Finally, nailed down to <code>model.has_warnings?</code>.</span>
 We use <a href="https://github.com/gtd/validation_scopes">validation_scopes</a> which was the cause in our case. It was creating metaclasses for validation
-and those classes did not get garbage collected (<a href="http://siliconsenthil.herokuapp.com/blog/2013/01/19/validation-scopes-leaks-memory/">details</a>).</p>
+and those classes did not get garbage collected (<a href="http://siliconsenthil.in/blog/2013/01/19/validation-scopes-leaks-memory/">details</a>).</p>
 
 <p>We fixed it by replacing <em>validation_scopes</em> with <a href="https://github.com/paneq/activemodel-warnings"><em>activemodel-warnings</em></a>.</p>
 ]]></content>
@@ -819,9 +819,9 @@ and those classes did not get garbage collected (<a href="http://siliconsenthil.
   
   <entry>
     <title type="html"><![CDATA[Onclick link disabling with jQuery]]></title>
-    <link href="http://siliconsenthil.herokuapp.com/blog/2011/04/15/onclick-link-disabling-with-jquery/"/>
+    <link href="http://siliconsenthil.in/blog/2011/04/15/onclick-link-disabling-with-jquery/"/>
     <updated>2011-04-15T16:07:00+05:30</updated>
-    <id>http://siliconsenthil.herokuapp.com/blog/2011/04/15/onclick-link-disabling-with-jquery</id>
+    <id>http://siliconsenthil.in/blog/2011/04/15/onclick-link-disabling-with-jquery</id>
     <content type="html"><![CDATA[<p>Days back I have come across a common requirement to disable link on clicking it once. Typically, it&#8217;s because on click of those links some AJAX thins happen and some fragments of the page gets updated.</p>
 
 <!--more-->
@@ -836,9 +836,9 @@ and those classes did not get garbage collected (<a href="http://siliconsenthil.
   
   <entry>
     <title type="html"><![CDATA[If else or Switch case to Polymorphism]]></title>
-    <link href="http://siliconsenthil.herokuapp.com/blog/2011/04/15/if-else-or-switch-case-to-polymorphism/"/>
+    <link href="http://siliconsenthil.in/blog/2011/04/15/if-else-or-switch-case-to-polymorphism/"/>
     <updated>2011-04-15T15:59:00+05:30</updated>
-    <id>http://siliconsenthil.herokuapp.com/blog/2011/04/15/if-else-or-switch-case-to-polymorphism</id>
+    <id>http://siliconsenthil.in/blog/2011/04/15/if-else-or-switch-case-to-polymorphism</id>
     <content type="html"><![CDATA[<p>If you try to express your logic in if-else way like this,</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class='java'><span class='line'>  <span class="kd">private</span> <span class="kd">static</span> <span class="n">String</span> <span class="nf">getSoundIfElseWay</span><span class="o">(</span><span class="n">String</span> <span class="n">animal</span><span class="o">)</span> <span class="o">{</span>

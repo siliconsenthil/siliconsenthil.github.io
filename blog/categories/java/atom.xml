@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: java | siliconsenthil.in]]></title>
-  <link href="http://siliconsenthil.herokuapp.com/blog/categories/java/atom.xml" rel="self"/>
-  <link href="http://siliconsenthil.herokuapp.com/"/>
-  <updated>2014-04-01T12:21:17+05:30</updated>
-  <id>http://siliconsenthil.herokuapp.com/</id>
+  <link href="http://siliconsenthil.in/blog/categories/java/atom.xml" rel="self"/>
+  <link href="http://siliconsenthil.in/"/>
+  <updated>2014-04-01T12:25:52+05:30</updated>
+  <id>http://siliconsenthil.in/</id>
   <author>
     <name><![CDATA[Senthil V S]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[If else or Switch case to Polymorphism]]></title>
-    <link href="http://siliconsenthil.herokuapp.com/blog/2011/04/15/if-else-or-switch-case-to-polymorphism/"/>
+    <link href="http://siliconsenthil.in/blog/2011/04/15/if-else-or-switch-case-to-polymorphism/"/>
     <updated>2011-04-15T15:59:00+05:30</updated>
-    <id>http://siliconsenthil.herokuapp.com/blog/2011/04/15/if-else-or-switch-case-to-polymorphism</id>
+    <id>http://siliconsenthil.in/blog/2011/04/15/if-else-or-switch-case-to-polymorphism</id>
     <content type="html"><![CDATA[<p>If you try to express your logic in if-else way like this,
 ``` java</p>
 

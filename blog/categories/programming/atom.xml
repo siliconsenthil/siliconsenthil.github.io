@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: programming | siliconsenthil.in]]></title>
-  <link href="http://siliconsenthil.herokuapp.com/blog/categories/programming/atom.xml" rel="self"/>
-  <link href="http://siliconsenthil.herokuapp.com/"/>
-  <updated>2014-04-01T12:21:17+05:30</updated>
-  <id>http://siliconsenthil.herokuapp.com/</id>
+  <link href="http://siliconsenthil.in/blog/categories/programming/atom.xml" rel="self"/>
+  <link href="http://siliconsenthil.in/"/>
+  <updated>2014-04-01T12:25:52+05:30</updated>
+  <id>http://siliconsenthil.in/</id>
   <author>
     <name><![CDATA[Senthil V S]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Iteration, Recursion and Tail recursion]]></title>
-    <link href="http://siliconsenthil.herokuapp.com/blog/2013/02/15/iteration-recursion-and-tail-recursion/"/>
+    <link href="http://siliconsenthil.in/blog/2013/02/15/iteration-recursion-and-tail-recursion/"/>
     <updated>2013-02-15T12:38:00+05:30</updated>
-    <id>http://siliconsenthil.herokuapp.com/blog/2013/02/15/iteration-recursion-and-tail-recursion</id>
+    <id>http://siliconsenthil.in/blog/2013/02/15/iteration-recursion-and-tail-recursion</id>
     <content type="html"><![CDATA[<p>Courtesy: <a href="https://class.coursera.org/progfun-2012-001/class/index">Functional Programming Principles in Scala</a></p>
 
 <p><strong>Problem:</strong> Given <em>a</em> and <em>b</em>,<br/>find the sum of range of numbers between <em>a</em> and <em>b</em>.<br>E.g. Given 1 and 4, the result is 10 (1+2+3+4). Simple.</p>

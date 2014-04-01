@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: general | siliconsenthil.in]]></title>
-  <link href="http://siliconsenthil.herokuapp.com/blog/categories/general/atom.xml" rel="self"/>
-  <link href="http://siliconsenthil.herokuapp.com/"/>
-  <updated>2014-04-01T12:21:17+05:30</updated>
-  <id>http://siliconsenthil.herokuapp.com/</id>
+  <link href="http://siliconsenthil.in/blog/categories/general/atom.xml" rel="self"/>
+  <link href="http://siliconsenthil.in/"/>
+  <updated>2014-04-01T12:25:52+05:30</updated>
+  <id>http://siliconsenthil.in/</id>
   <author>
     <name><![CDATA[Senthil V S]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Integer.parseInt('God') = ???]]></title>
-    <link href="http://siliconsenthil.herokuapp.com/blog/2013/03/26/integer-dot-parseint-god/"/>
+    <link href="http://siliconsenthil.in/blog/2013/03/26/integer-dot-parseint-god/"/>
     <updated>2013-03-26T22:47:00+05:30</updated>
-    <id>http://siliconsenthil.herokuapp.com/blog/2013/03/26/integer-dot-parseint-god</id>
+    <id>http://siliconsenthil.in/blog/2013/03/26/integer-dot-parseint-god</id>
     <content type="html"><![CDATA[<p>Migrated from: <a href="http://monophilo.blogspot.in/2010/03/integerparseintgod.html">My old post</a></p>
 
 <p>Today people visit temple for so many reasons. Fundamentally, those reasons come out of fear or greed depending on the situation. During recession people ask god to save job (out of fear) or otherwise, they ask for promotion or better job (out of greed).</p>
