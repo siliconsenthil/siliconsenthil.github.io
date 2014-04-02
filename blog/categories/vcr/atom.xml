@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: vcr | siliconsenthil.in]]></title>
+  <link href="http://siliconsenthil.in/blog/categories/vcr/atom.xml" rel="self"/>
+  <link href="http://siliconsenthil.in/"/>
+  <updated>2014-04-02T19:34:46+05:30</updated>
+  <id>http://siliconsenthil.in/</id>
+  <author>
+    <name><![CDATA[Senthil V S]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[VCR - Match body]]></title>
+    <link href="http://siliconsenthil.in/blog/2014/04/02/vcr-match-body/"/>
+    <updated>2014-04-02T18:50:00+05:30</updated>
+    <id>http://siliconsenthil.in/blog/2014/04/02/vcr-match-body</id>
+    <content type="html"><![CDATA[<p>We had to have make external API calls and we used <a href="https://github.com/vcr/vcr">vcr</a> to record and replay in our integration tests. All was going on well.</p>
+
+<p>Despite this coverage, we saw our code breaking in production due to small chages in request xml body. We wanted our integration spec to cover these too. By default, vcr <a href="https://www.relishapp.com/vcr/vcr/v/2-0-0-beta1/docs/request-matching">matches</a> request method and url. We wanted it to match the post body too. Simple match by body does not solve as it does plain string match. It would give <a href="http://stackoverflow.com/a/17838775/227705">false negatives</a>.</p>
+
+<p>So, we decided to match our xml request body. This is what we did.</p>
+
+<!-- more -->
+
+
+<p><code>ruby Gemfile
+gem 'equivalent-xml'
+</code></p>
+
+<p>``` ruby spec/spec_helper.rb
+VCR.configure do |c|
+  #some other configs
+  c.default_cassette_options = {record: :once, match_requests_on:  [:method, :uri, :xml_post_body]}
+  c.register_request_matcher :xml_post_body do |request_1, request_2|</p>
+
+<pre><code>XmlPostBodyMatcher.match?(request_1, request_2)
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<p>``` ruby spec/support/xml_post_body_matcher.rb
+class XmlPostBodyMatcher
+  def self.match?(request_1, request_2)</p>
+
+<pre><code>return true if request_1.method == :get
+return true if !xml_body?(request_1)
+EquivalentXml.equivalent?(Nokogiri::XML(request_1.body), Nokogiri::XML(request_2.body))
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<p>We added a new matcher called <code>XmlPostBodyMatcher</code> and it uses <code>equivalent-xml</code> gem to match if the post body is an xml.</p>
+
+<p>This has helped us to have strict-yet-sensible  integration spec and increased our confidence on the test suite.</p>
+
+<p>Hope this is useful for you too.</p>
+]]></content>
+  </entry>
+  
+</feed>

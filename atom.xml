@@ -4,7 +4,7 @@
   <title><![CDATA[siliconsenthil.in]]></title>
   <link href="http://siliconsenthil.in/atom.xml" rel="self"/>
   <link href="http://siliconsenthil.in/"/>
-  <updated>2014-04-01T12:25:52+05:30</updated>
+  <updated>2014-04-02T19:34:46+05:30</updated>
   <id>http://siliconsenthil.in/</id>
   <author>
     <name><![CDATA[Senthil V S]]></name>
@@ -12,6 +12,58 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[VCR - Match body]]></title>
+    <link href="http://siliconsenthil.in/blog/2014/04/02/vcr-match-body/"/>
+    <updated>2014-04-02T18:50:00+05:30</updated>
+    <id>http://siliconsenthil.in/blog/2014/04/02/vcr-match-body</id>
+    <content type="html"><![CDATA[<p>We had to have make external API calls and we used <a href="https://github.com/vcr/vcr">vcr</a> to record and replay in our integration tests. All was going on well.</p>
+
+<p>Despite this coverage, we saw our code breaking in production due to small chages in request xml body. We wanted our integration spec to cover these too. By default, vcr <a href="https://www.relishapp.com/vcr/vcr/v/2-0-0-beta1/docs/request-matching">matches</a> request method and url. We wanted it to match the post body too. Simple match by body does not solve as it does plain string match. It would give <a href="http://stackoverflow.com/a/17838775/227705">false negatives</a>.</p>
+
+<p>So, we decided to match our xml request body. This is what we did.</p>
+
+<!-- more -->
+
+
+
+
+<figure class='code'><figcaption><span>Gemfile</span></figcaption><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">gem</span> <span class="s1">&#39;equivalent-xml&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>spec/spec_helper.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">VCR</span><span class="o">.</span><span class="n">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span>
+</span><span class='line'>  <span class="c1">#some other configs</span>
+</span><span class='line'>  <span class="n">c</span><span class="o">.</span><span class="n">default_cassette_options</span> <span class="o">=</span> <span class="p">{</span><span class="ss">record</span><span class="p">:</span> <span class="ss">:once</span><span class="p">,</span> <span class="n">match_requests_on</span><span class="p">:</span>  <span class="o">[</span><span class="ss">:method</span><span class="p">,</span> <span class="ss">:uri</span><span class="p">,</span> <span class="ss">:xml_post_body</span><span class="o">]</span><span class="p">}</span>
+</span><span class='line'>  <span class="n">c</span><span class="o">.</span><span class="n">register_request_matcher</span> <span class="ss">:xml_post_body</span> <span class="k">do</span> <span class="o">|</span><span class="n">request_1</span><span class="p">,</span> <span class="n">request_2</span><span class="o">|</span>
+</span><span class='line'>    <span class="no">XmlPostBodyMatcher</span><span class="o">.</span><span class="n">match?</span><span class="p">(</span><span class="n">request_1</span><span class="p">,</span> <span class="n">request_2</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>spec/support/xml_post_body_matcher.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">XmlPostBodyMatcher</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">match?</span><span class="p">(</span><span class="n">request_1</span><span class="p">,</span> <span class="n">request_2</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">return</span> <span class="kp">true</span> <span class="k">if</span> <span class="n">request_1</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="ss">:get</span>
+</span><span class='line'>    <span class="k">return</span> <span class="kp">true</span> <span class="k">if</span> <span class="o">!</span><span class="n">xml_body?</span><span class="p">(</span><span class="n">request_1</span><span class="p">)</span>
+</span><span class='line'>    <span class="no">EquivalentXml</span><span class="o">.</span><span class="n">equivalent?</span><span class="p">(</span><span class="ss">Nokogiri</span><span class="p">:</span><span class="ss">:XML</span><span class="p">(</span><span class="n">request_1</span><span class="o">.</span><span class="n">body</span><span class="p">),</span> <span class="ss">Nokogiri</span><span class="p">:</span><span class="ss">:XML</span><span class="p">(</span><span class="n">request_2</span><span class="o">.</span><span class="n">body</span><span class="p">))</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We added a new matcher called <code>XmlPostBodyMatcher</code> and it uses <code>equivalent-xml</code> gem to match if the post body is an xml.</p>
+
+<p>This has helped us to have strict-yet-sensible  integration spec and increased our confidence on the test suite.</p>
+
+<p>Hope this is useful for you too.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Apache Camel with Scala: Extending DSL]]></title>

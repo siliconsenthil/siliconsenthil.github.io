@@ -281,7 +281,20 @@ and those classes did not get garbage collected (<a href="/blog/2013/01/19/valid
 
 
 
-
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('a').each(function() {
+        var a = new RegExp('/' + window.location.host + '/');
+        if(!a.test(this.href)) {
+            $(this).click(function(event) {
+                event.preventDefault();
+                event.stopPropagation();
+                window.open(this.href, '_blank');
+            });
+        }
+    });
+  });
+</script>
 
 </body>
 </html>

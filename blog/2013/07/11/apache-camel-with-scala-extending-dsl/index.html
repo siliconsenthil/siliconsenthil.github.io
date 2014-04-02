@@ -204,6 +204,8 @@
         <a class="basic-alignment left" href="/blog/2013/07/07/apache-camel-with-scala-testing-styles/" title="Previous Post: Apache Camel with Scala: Testing Styles">&laquo; Apache Camel with Scala: Testing Styles</a>
       
       
+        <a class="basic-alignment right" href="/blog/2014/04/02/vcr-match-body/" title="Next Post: VCR - Match body">VCR - Match body &raquo;</a>
+      
     </p>
   </footer>
 </article>
@@ -284,7 +286,20 @@
 
 
 
-
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('a').each(function() {
+        var a = new RegExp('/' + window.location.host + '/');
+        if(!a.test(this.href)) {
+            $(this).click(function(event) {
+                event.preventDefault();
+                event.stopPropagation();
+                window.open(this.href, '_blank');
+            });
+        }
+    });
+  });
+</script>
 
 </body>
 </html>
