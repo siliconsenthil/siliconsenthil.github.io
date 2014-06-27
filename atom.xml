@@ -4,7 +4,7 @@
   <title><![CDATA[siliconsenthil.in]]></title>
   <link href="http://siliconsenthil.in/atom.xml" rel="self"/>
   <link href="http://siliconsenthil.in/"/>
-  <updated>2014-04-07T14:46:00+05:30</updated>
+  <updated>2014-06-27T10:10:49+05:30</updated>
   <id>http://siliconsenthil.in/</id>
   <author>
     <name><![CDATA[Senthil V S]]></name>
@@ -12,6 +12,23 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Why scala should be your next programming language?]]></title>
+    <link href="http://siliconsenthil.in/blog/2014/06/27/why-scala-why-now/"/>
+    <updated>2014-06-27T10:03:00+05:30</updated>
+    <id>http://siliconsenthil.in/blog/2014/06/27/why-scala-why-now</id>
+    <content type="html"><![CDATA[<p>I with <a href="http://in.linkedin.com/pub/aravindh-sridharan/31/8bb/b5">Aravindh</a> gave a talk @ <a href="http://twchennai.github.io/geeknight/">Geeknight, Chennai</a> on 26-JUN-2014. Sharing the presentation here.</p>
+
+<!-- more -->
+
+
+
+
+<script async class="speakerdeck-embed" data-id="9a8f5710dfe00131adb86ab78659ca38" data-ratio="1.33333333333333" src="http://siliconsenthil.in//speakerdeck.com/assets/embed.js"></script>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[VCR - Match body]]></title>
