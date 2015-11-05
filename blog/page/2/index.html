@@ -5,10 +5,10 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: java - siliconsenthil.in</title>
+  <title>siliconsenthil.in</title>
   <meta name="author" content="Senthil V S">
   
-  <meta name="description" content="Category: java">
+  <meta name="description" content="Tips, tricks, and hacks on Ruby on Rails development.">
   <meta name="keywords" content="ruby,ruby on rails,heroku,gem,web development,memory leak,">
   
   <!-- http://t.co/dKP3o1e -->
@@ -17,7 +17,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://siliconsenthil.inblog/categories/java/">
+  <link rel="canonical" href="http://siliconsenthil.in/blog/page/2/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -69,46 +69,77 @@
 </nav>
   <div id="main">
     <div id="content">
-      <div>
-<article role="article">
+      <div class="blog-index">
   
+  
+  
+    <article>
+      
   <header>
-    <h1 class="entry-title">Category: Java</h1>
+    
+      <h1 class="entry-title"><a href="/blog/2011/04/15/if-else-or-switch-case-to-polymorphism/">If Else or Switch Case to Polymorphism</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-04-15T15:59:00+01:00" pubdate data-updated="true">Apr 15<span>th</span>, 2011</time>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+  <div class="entry-content"><p>If you try to express your logic in if-else way like this,</p>
 
-  
-  <h2>2011</h2>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class='java'><span class='line'>  <span class="kd">private</span> <span class="kd">static</span> <span class="n">String</span> <span class="nf">getSoundIfElseWay</span><span class="o">(</span><span class="n">String</span> <span class="n">animal</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>       <span class="k">if</span> <span class="o">(</span><span class="n">animal</span><span class="o">.</span><span class="na">equalsIgnoreCase</span><span class="o">(</span><span class="s">&quot;Dog&quot;</span><span class="o">))</span>
+</span><span class='line'>            <span class="k">return</span> <span class="s">&quot;Bark&quot;</span><span class="o">;</span>
+</span><span class='line'>       <span class="k">else</span> <span class="nf">if</span> <span class="o">(</span><span class="n">animal</span><span class="o">.</span><span class="na">equalsIgnoreCase</span><span class="o">(</span><span class="s">&quot;Cat&quot;</span><span class="o">))</span>
+</span><span class='line'>            <span class="k">return</span> <span class="s">&quot;Mew&quot;</span><span class="o">;</span>
+</span><span class='line'>       <span class="k">else</span> <span class="nf">if</span> <span class="o">(</span><span class="n">animal</span><span class="o">.</span><span class="na">equalsIgnoreCase</span><span class="o">(</span><span class="s">&quot;Lion&quot;</span><span class="o">))</span>
+</span><span class='line'>            <span class="k">return</span> <span class="s">&quot;Roar&quot;</span><span class="o">;</span>
+</span><span class='line'>       <span class="k">return</span> <span class="s">&quot;&quot;</span><span class="o">;</span>
+</span><span class='line'>  <span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<article>
-  
-<h1><a href="/blog/2011/04/15/if-else-or-switch-case-to-polymorphism/">If else or Switch case to Polymorphism</a></h1>
-<time datetime="2011-04-15T15:59:00+01:00" pubdate><span class='month'>Apr</span> <span class='day'>15</span> <span class='year'>2011</span></time>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/design/'>design</a>, <a class='category' href='/blog/categories/java/'>java</a>, <a class='category' href='/blog/categories/oop/'>oop</a></span>
-</footer>
-
-
-</article>
+<p>then polymorphic way would be,</p>
 
 </div>
-
   
-</article>
+  
+    <footer>
+      <a rel="full-article" href="/blog/2011/04/15/if-else-or-switch-case-to-polymorphism/">Read on &rarr;</a>
+    </footer>
+  
 
+
+    </article>
+  
+  <div class="pagination">
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/">Newer &rarr;</a>
+    
+  </div>
 </div>
-
 <aside class="sidebar">
   
     
   
 </aside>
-
 
     </div>
   </div>
