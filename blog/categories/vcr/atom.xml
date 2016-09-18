@@ -4,7 +4,7 @@
   <title><![CDATA[Category: vcr | siliconsenthil.in]]></title>
   <link href="http://siliconsenthil.in/blog/categories/vcr/atom.xml" rel="self"/>
   <link href="http://siliconsenthil.in/"/>
-  <updated>2016-03-02T20:37:21+00:00</updated>
+  <updated>2016-09-18T15:31:32+05:30</updated>
   <id>http://siliconsenthil.in/</id>
   <author>
     <name><![CDATA[Senthil V S]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[VCR - Match body]]></title>
     <link href="http://siliconsenthil.in/blog/2014/04/02/vcr-match-body/"/>
-    <updated>2014-04-02T18:50:00+01:00</updated>
+    <updated>2014-04-02T18:50:00+05:30</updated>
     <id>http://siliconsenthil.in/blog/2014/04/02/vcr-match-body</id>
     <content type="html"><![CDATA[<p>We had to have make external API calls and we used <a href="https://github.com/vcr/vcr">vcr</a> to record and replay in our integration tests. All was going on well.</p>
 

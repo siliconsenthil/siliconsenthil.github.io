@@ -4,7 +4,7 @@
   <title><![CDATA[Category: java | siliconsenthil.in]]></title>
   <link href="http://siliconsenthil.in/blog/categories/java/atom.xml" rel="self"/>
   <link href="http://siliconsenthil.in/"/>
-  <updated>2016-03-02T20:37:21+00:00</updated>
+  <updated>2016-09-18T15:31:32+05:30</updated>
   <id>http://siliconsenthil.in/</id>
   <author>
     <name><![CDATA[Senthil V S]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[If else or Switch case to Polymorphism]]></title>
     <link href="http://siliconsenthil.in/blog/2011/04/15/if-else-or-switch-case-to-polymorphism/"/>
-    <updated>2011-04-15T15:59:00+01:00</updated>
+    <updated>2011-04-15T15:59:00+05:30</updated>
     <id>http://siliconsenthil.in/blog/2011/04/15/if-else-or-switch-case-to-polymorphism</id>
     <content type="html"><![CDATA[<p>If you try to express your logic in if-else way like this,
 ``` java</p>
