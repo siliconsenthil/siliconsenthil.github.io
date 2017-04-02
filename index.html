@@ -76,6 +76,53 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2017/04/02/so-you-built-webhooks-and-wanna-test/">So, You Built Webhooks? And Wanna Test</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2017-04-02T23:28:00+05:30" pubdate data-updated="true">Apr 2<span>nd</span>, 2017</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>When you build public facing APIs, there are operations that could not fit enough into request-response cycle. Especially, when it involves user interaction.</p>
+
+<p>Take an example of sending email. You can expose an API endpoint for clients to send email. But whenever the email is opened, the client want to do some action. They can keep polling you and get the status of the email of course. But, that&#8217;s suboptimal on both sides. So you want to tell the client when the email is opened. Now, that&#8217;s when you do webhooks (<a href="https://webhooks.pbworks.com/w/page/13385124/FrontPage">ref</a>).</p>
+
+<p>Webhooks are easier to build. After all, it&#8217;s just one http call you will have to make.</p>
+
+<p>But, testing it is not so.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2017/04/02/so-you-built-webhooks-and-wanna-test/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2014/06/27/why-scala-why-now/">Why Scala Should Be Your Next Programming Language?</a></h1>
     
     
@@ -477,62 +524,9 @@ but we could make further progress with that. So here&#8217;s what we did to fin
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/04/15/if-else-or-switch-case-to-polymorphism/">If Else or Switch Case to Polymorphism</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-04-15T15:59:00+05:30" pubdate data-updated="true">Apr 15<span>th</span>, 2011</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>If you try to express your logic in if-else way like this,</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"></pre></td><td class='code'><pre><code class='java'><span class='line'>  <span class="kd">private</span> <span class="kd">static</span> <span class="n">String</span> <span class="nf">getSoundIfElseWay</span><span class="o">(</span><span class="n">String</span> <span class="n">animal</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>       <span class="k">if</span> <span class="o">(</span><span class="n">animal</span><span class="o">.</span><span class="na">equalsIgnoreCase</span><span class="o">(</span><span class="s">&quot;Dog&quot;</span><span class="o">))</span>
-</span><span class='line'>            <span class="k">return</span> <span class="s">&quot;Bark&quot;</span><span class="o">;</span>
-</span><span class='line'>       <span class="k">else</span> <span class="nf">if</span> <span class="o">(</span><span class="n">animal</span><span class="o">.</span><span class="na">equalsIgnoreCase</span><span class="o">(</span><span class="s">&quot;Cat&quot;</span><span class="o">))</span>
-</span><span class='line'>            <span class="k">return</span> <span class="s">&quot;Mew&quot;</span><span class="o">;</span>
-</span><span class='line'>       <span class="k">else</span> <span class="nf">if</span> <span class="o">(</span><span class="n">animal</span><span class="o">.</span><span class="na">equalsIgnoreCase</span><span class="o">(</span><span class="s">&quot;Lion&quot;</span><span class="o">))</span>
-</span><span class='line'>            <span class="k">return</span> <span class="s">&quot;Roar&quot;</span><span class="o">;</span>
-</span><span class='line'>       <span class="k">return</span> <span class="s">&quot;&quot;</span><span class="o">;</span>
-</span><span class='line'>  <span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>then polymorphic way would be,</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2011/04/15/if-else-or-switch-case-to-polymorphism/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
+    
+      <a class="prev" href="/blog/page/2/">&larr; Older</a>
     
     <a href="/blog/archives">Blog Archives</a>
     
@@ -547,7 +541,7 @@ but we could make further progress with that. So here&#8217;s what we did to fin
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2016 - Senthil V S -
+  Copyright &copy; 2017 - Senthil V S -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 

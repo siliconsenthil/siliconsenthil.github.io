@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Integer.parseInt('God') = ??? - siliconsenthil.in</title>
+  <title>So, you built webhooks? And wanna test  - siliconsenthil.in</title>
   <meta name="author" content="Senthil V S">
   
-  <meta name="description" content="Thoughts on software development, application architecture, technical leadership.">
-  <meta name="keywords" content="rant,philosophy,god">
+  <meta name="description" content="Ruby library to test webhook calling code.">
+  <meta name="keywords" content="ruby,rspec,webhooks,ngrok">
   
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -17,7 +17,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://siliconsenthil.in/blog/2013/03/26/integer-dot-parseint-god/">
+  <link rel="canonical" href="http://siliconsenthil.in/blog/2017/04/02/so-you-built-webhooks-and-wanna-test/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -73,7 +73,7 @@
   
   <header>
     
-      <h1 class="entry-title">Integer.parseInt('God') = ???</h1>
+      <h1 class="entry-title">So, You Built Webhooks? And Wanna Test</h1>
     
     
       <p class="meta">
@@ -89,29 +89,42 @@
   
 
 
-<time datetime="2013-03-26T22:47:00+05:30" pubdate data-updated="true">Mar 26<span>th</span>, 2013</time>
+<time datetime="2017-04-02T23:28:00+05:30" pubdate data-updated="true">Apr 2<span>nd</span>, 2017</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>Migrated from: <a href="http://monophilo.blogspot.in/2010/03/integerparseintgod.html">My old post</a></p>
+<div class="entry-content"><p>When you build public facing APIs, there are operations that could not fit enough into request-response cycle. Especially, when it involves user interaction.</p>
 
-<p>Today people visit temple for so many reasons. Fundamentally, those reasons come out of fear or greed depending on the situation. During recession people ask god to save job (out of fear) or otherwise, they ask for promotion or better job (out of greed).</p>
+<p>Take an example of sending email. You can expose an API endpoint for clients to send email. But whenever the email is opened, the client want to do some action. They can keep polling you and get the status of the email of course. But, that&#8217;s suboptimal on both sides. So you want to tell the client when the email is opened. Now, that&#8217;s when you do webhooks (<a href="https://webhooks.pbworks.com/w/page/13385124/FrontPage">ref</a>).</p>
 
-<!--more-->
+<p>Webhooks are easier to build. After all, it&#8217;s just one http call you will have to make.</p>
+
+<p>But, testing it is not so.</p>
+
+<!-- more -->
 
 
-<p>Somewhere in their mind, they understand, they can&#8217;t make all things happen. But, God is someone who can do anything. So, it&#8217;s natural to go to him ask for the they want.</p>
+<p><strong>Public URL:</strong> We need the webhook URL to be accessible from the application server. For local testing <code>localhost</code> would do. But when you want to test the behaviour in CI ot other enviroments, it requires to be a public URL.</p>
 
-<p>Whenever we get anything from somebody, we wanna pay them back. It happens with God also. There are so many rituals and processes to do that. Some people are just happy with thanking him.</p>
+<p><strong>Recorded requests:</strong> Once the application is invoked and it called the webhook URL, we need to assert on the request made by application. So we need a way to record those requests and assert later.</p>
 
-<p>OK. When we look at the nature of these things we do with God, we can understand it&#8217;s sort of business transaction. No business transaction could happen without numbers. While we keep talking about unlimited nature of God,we tend to somehow &#8216;use&#8217; him for limited, physical things. It&#8217;s an attempt to quantify God.</p>
+<p>So <a href="https://github.com/siliconsenthil/webhook_recorder">webhook_recorder</a> is born. It uses <code>WEBrick</code> server to run locally and  uses <a href="https://ngrok.com">ngrok</a> to expose that.</p>
 
-<p>In java, &#8216;Integer.parseInt()&#8217; is a statement used to convert string to number.</p>
+<iframe src="https://docs.google.com/presentation/d/1-Ic9WCukD9D1FGYISvo1TAfa5hW5YsN0zCF9QotGujQ/embed?start=false&loop=false&delayms=3000" frameborder="0" width="600" height="460" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
 
-<p>Integer.parseInt(&#8220;God&#8221;) is just an expression of our pathetic attempt to quantify God.</p>
+
+
+
+<br>
+
+
+<br>
+
+
+<p><em>PS: We at <a href="https://getsimpl.com">Simpl</a> are in a mission of making money simple. Wanna join hands? Let me know at <a href="https://twitter.com/siliconsenthil">@siliconsenthil</a></em></p>
 </div>
 
 
@@ -134,12 +147,12 @@
   
 
 
-<time datetime="2013-03-26T22:47:00+05:30" pubdate data-updated="true">Mar 26<span>th</span>, 2013</time>
+<time datetime="2017-04-02T23:28:00+05:30" pubdate data-updated="true">Apr 2<span>nd</span>, 2017</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/general/'>general</a>
+    <a class='category' href='/blog/categories/ruby/'>ruby</a>
   
 </span>
 
@@ -148,7 +161,7 @@
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://siliconsenthil.in/blog/2013/03/26/integer-dot-parseint-god/" data-via="siliconsenthil" data-counturl="http://siliconsenthil.in/blog/2013/03/26/integer-dot-parseint-god/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://siliconsenthil.in/blog/2017/04/02/so-you-built-webhooks-and-wanna-test/" data-via="siliconsenthil" data-counturl="http://siliconsenthil.in/blog/2017/04/02/so-you-built-webhooks-and-wanna-test/" >Tweet</a>
   
   
   <div class="g-plusone" data-size="medium"></div>
@@ -161,10 +174,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2013/02/15/iteration-recursion-and-tail-recursion/" title="Previous Post: Iteration, Recursion and Tail recursion">&laquo; Iteration, Recursion and Tail recursion</a>
+        <a class="basic-alignment left" href="/blog/2014/06/27/why-scala-why-now/" title="Previous Post: Why scala should be your next programming language?">&laquo; Why scala should be your next programming language?</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2013/07/07/apache-camel-with-scala-testing-styles/" title="Next Post: Apache Camel with Scala: Testing Styles">Apache Camel with Scala: Testing Styles &raquo;</a>
       
     </p>
   </footer>
@@ -200,8 +211,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://siliconsenthil.in/blog/2013/03/26/integer-dot-parseint-god/';
-        var disqus_url = 'http://siliconsenthil.in/blog/2013/03/26/integer-dot-parseint-god/';
+        var disqus_identifier = 'http://siliconsenthil.in/blog/2017/04/02/so-you-built-webhooks-and-wanna-test/';
+        var disqus_url = 'http://siliconsenthil.in/blog/2017/04/02/so-you-built-webhooks-and-wanna-test/';
         var disqus_script = 'embed.js';
       
     (function () {
