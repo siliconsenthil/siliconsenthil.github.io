@@ -4,7 +4,7 @@
   <title><![CDATA[siliconsenthil.in]]></title>
   <link href="http://siliconsenthil.in/atom.xml" rel="self"/>
   <link href="http://siliconsenthil.in/"/>
-  <updated>2018-06-13T10:06:25+05:30</updated>
+  <updated>2019-03-09T19:56:44+05:30</updated>
   <id>http://siliconsenthil.in/</id>
   <author>
     <name><![CDATA[Senthil V S]]></name>
@@ -12,6 +12,25 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[How we built our own heroku]]></title>
+    <link href="http://siliconsenthil.in/blog/2019/03/09/how-we-built-our-own-heroku/"/>
+    <updated>2019-03-09T17:30:00+05:30</updated>
+    <id>http://siliconsenthil.in/blog/2019/03/09/how-we-built-our-own-heroku</id>
+    <content type="html"><![CDATA[<p>At Simpl, we faced a challenge to run a polyglot microservices based platform in auto-scalable and secure manner. We did not have dedicated DevOps person. We could not go ahead with a PaaS solution for lack of customizability. So we built our own solution called <a href="https://github.com/GetSimpl/cloudlift">cloudlift</a>. I and <a href="https://www.linkedin.com/in/jeechudeka/">Jeechu</a> presented this at multiple meetups.</p>
+
+<p>Sharing the presentation here&#8230;</p>
+
+<!-- more -->
+
+
+
+
+<div style="left: 0; width: 100%; height: 0; position: relative; padding-bottom: 74.9288%;"><iframe src="http://siliconsenthil.in//speakerdeck.com/player/b1e4b76e2081438a8d63da5801ca5f34" style="border: 0; top: 0; left: 0; width: 100%; height: 100%; position: absolute;" allowfullscreen scrolling="no" allow="autoplay; encrypted-media"></iframe></div>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[So, you built webhooks? And wanna test ]]></title>
